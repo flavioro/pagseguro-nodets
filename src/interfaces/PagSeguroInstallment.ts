@@ -1,6 +1,6 @@
 export interface PagSeguroInstallment {
-  installmentAmount?: number;
-  interestFree?: boolean;
   quantity?: number;
   totalAmount?: number;
+  installmentAmount?: number;
+  interestFree?: boolean;
 }

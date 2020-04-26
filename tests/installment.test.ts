@@ -1,12 +1,16 @@
-import pagseguro from '../src';
 import PagSeguroError from '../src/errors/PagSeguroError';
+import getClient from '../src/GetClient';
+import testConfig from '../src/TestConfig';
 
-describe('Installment', () => {
-  it('success', async () => {
-    const client = pagseguro.connect(pagseguro.testConfig.pagseguro);
-    const response = await client.installment.get({
+describe('Installment', async () => {
+  const client = getClient(testConfig.pagseguro);
+  const { session } = await client.sessionService.get();
+
+  await it('success', async () => {
+    const response = await client.installmentService.get({
+      sessionId: session.id,
       amount: 30.0,
-      cardBrand: 'visa',
+      creditCardBrand: 'visa',
       maxInstallmentNoInterest: 2,
     });
 
@@ -14,15 +18,15 @@ describe('Installment', () => {
     expect(response).toHaveProperty('statusCode', 200);
     expect(response).toHaveProperty('status', 'success');
     expect(response).toHaveProperty('content');
-    expect(Array.isArray(response.content)).toEqual(true);
+    expect(Array.isArray(response.installments)).toEqual(true);
   });
 
-  it('invalid cardBrand', async () => {
+  await it('invalid cardBrand', async () => {
     try {
-      const client = pagseguro.connect(pagseguro.testConfig.pagseguro);
-      await client.installment.get({
+      await client.installmentService.get({
+        sessionId: session.id,
         amount: 30.0,
-        cardBrand: 'other',
+        creditCardBrand: 'other',
         maxInstallmentNoInterest: 2,
       });
     } catch (e) {
@@ -35,12 +39,12 @@ describe('Installment', () => {
     }
   });
 
-  it('invalid amount', async () => {
+  await it('invalid amount', async () => {
     try {
-      const client = pagseguro.connect(pagseguro.testConfig.pagseguro);
-      await client.installment.get({
-        amount: null,
-        cardBrand: 'visa',
+      await client.installmentService.get({
+        sessionId: session.id,
+        amount: 25.989,
+        creditCardBrand: 'visa',
         maxInstallmentNoInterest: 2,
       });
     } catch (e) {
@@ -53,12 +57,12 @@ describe('Installment', () => {
     }
   });
 
-  it('invalid maxInstallmentNoInterest', async () => {
+  await it('invalid maxInstallmentNoInterest', async () => {
     try {
-      const client = pagseguro.connect(pagseguro.testConfig.pagseguro);
-      await client.installment.get({
+      await client.installmentService.get({
+        sessionId: session.id,
         amount: 12.0,
-        cardBrand: 'visa',
+        creditCardBrand: 'visa',
         maxInstallmentNoInterest: 2222,
       });
     } catch (e) {

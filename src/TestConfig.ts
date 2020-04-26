@@ -60,9 +60,13 @@ const sender: PagSeguroSender = {
     areaCode: '48',
     number: '999048349',
   },
-  document: {
-    type: 'CPF',
-    value: '02722185296',
+  documents: {
+    document: [
+      {
+        type: 'CPF',
+        value: '02722185296',
+      },
+    ],
   },
 };
 
@@ -89,7 +93,8 @@ const billing: PagSeguroBilling = { ...address };
  * shipping
  */
 const shipping: PagSeguroShipping = {
-  ...address,
+  addressRequired: false,
+  address,
   type: 1,
   cost: 25.0,
 };
@@ -224,7 +229,7 @@ const authorization = {
 /**
  * exports
  */
-export default {
+const testConfig = {
   authorization,
   pagseguro,
   accounts,
@@ -248,3 +253,5 @@ export default {
     items,
   },
 };
+
+export default testConfig;

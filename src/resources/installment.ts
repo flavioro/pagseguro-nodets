@@ -1,5 +1,5 @@
 import request from 'request-promise';
-import config from '../config';
+import api from '../config/api';
 import PagSeguroError from '../errors/PagSeguroError';
 
 const get = async (opts: any, { ...params }: any): Promise<any> => {
@@ -15,7 +15,7 @@ const get = async (opts: any, { ...params }: any): Promise<any> => {
   try {
     const response = await request({
       ...opts,
-      url: `${opts.base.webservice}/${config.installment}`,
+      url: `${opts.base.webservice}/${api.installment}`,
       method: 'GET',
     });
 

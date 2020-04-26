@@ -1,6 +1,6 @@
 import request from 'request-promise';
 import clone from 'clone';
-import config from '../config';
+import api from '../config/api';
 import PagSeguroError from '../errors/PagSeguroError';
 import format from '../format';
 
@@ -53,7 +53,7 @@ const getSplitParams = (opts: {
 
   return {
     opts,
-    url: `${opts.base.webservice}/${config.split.transaction}`,
+    url: `${opts.base.webservice}/${api.split.transaction}`,
   };
 };
 
@@ -77,7 +77,7 @@ const boleto = async (opts: any, params: { method?: string } = {}) => {
   params.method = 'boleto';
   params = formatRequestParams(opts, params);
 
-  let url = `${opts.base.webservice}/${config.transaction.directPayment}`;
+  let url = `${opts.base.webservice}/${api.transaction.directPayment}`;
 
   // is split
   if (params.hasOwnProperty('receivers')) {
@@ -116,7 +116,7 @@ const creditCard = async (opts: any, params: { method: string }) => {
   params.method = 'creditCard';
   params = formatRequestParams(opts, params);
 
-  let url = `${opts.base.webservice}/${config.transaction.directPayment}`;
+  let url = `${opts.base.webservice}/${api.transaction.directPayment}`;
 
   // is split
   if (params.hasOwnProperty('receivers')) {
@@ -152,7 +152,7 @@ const onlineDebit = async (opts: any, params: { method?: string } = {}) => {
   params.method = 'EFT';
   params = formatRequestParams(opts, params);
 
-  let url = `${opts.base.webservice}/${config.transaction.directPayment}`;
+  let url = `${opts.base.webservice}/${api.transaction.directPayment}`;
 
   // is split
   if (params.hasOwnProperty('receivers')) {
@@ -193,7 +193,7 @@ const cancel = async (opts: any, transactionCode: any) => {
   try {
     const response = await request({
       ...opts,
-      url: `${opts.base.webservice}/${config.transaction.cancel}`,
+      url: `${opts.base.webservice}/${api.transaction.cancel}`,
       method: 'POST',
     });
 
@@ -226,7 +226,7 @@ const refund = async (opts: any, transactionCode: any, refundValue = null) => {
   try {
     const response = await request({
       ...opts,
-      url: `${opts.base.webservice}/${config.transaction.refund}`,
+      url: `${opts.base.webservice}/${api.transaction.refund}`,
       method: 'POST',
     });
 
@@ -276,7 +276,7 @@ const search = async (opts: any, query = {}) => {
   try {
     const response = await request({
       ...opts,
-      url: `${opts.base.webservice}/${config.transaction.search}`,
+      url: `${opts.base.webservice}/${api.transaction.search}`,
       method: 'GET',
     });
 
@@ -299,7 +299,7 @@ const get = async (opts: any, transactionCode: any) => {
   try {
     const response = await request({
       ...opts,
-      url: `${opts.base.webservice}/${config.transaction.code}/${transactionCode}`,
+      url: `${opts.base.webservice}/${api.transaction.code}/${transactionCode}`,
       method: 'GET',
     });
 
@@ -322,7 +322,7 @@ const notification = async (opts: any, notificationCode: any) => {
   try {
     const response = await request({
       ...opts,
-      url: `${opts.base.webservice}/${config.transaction.notification}/${notificationCode}`,
+      url: `${opts.base.webservice}/${api.transaction.notification}/${notificationCode}`,
       method: 'GET',
     });
 

@@ -1,15 +1,15 @@
-import xml2js, { j2xParser } from 'fast-xml-parser';
+import xml2js from 'fast-xml-parser';
 import { Logger } from 'winston';
 import logger from './logger';
-import { getBaseUrl, validateConfig } from './utils';
-import validate from './helper/validate';
-import resources from './resources';
-import wsConfig from './config';
+import { getBaseUrl, validateConfig } from './helper/utils';
+import wsConfig from './config/api';
 import { PagSeguroConfig } from './interfaces/PagSeguroConfig';
 import { PagSeguroRequestOptions } from './interfaces/PagSeguroRequestOptions';
 import { PagSeguroClient } from './interfaces/PagSeguroClient';
 import SessionService from './services/SessionService';
 import InstallmentService from './services/InstallmentService';
+import BoletoService from './services/checkout-transparente/BoletoService';
+import AuthorizationService from './services/AuthorizationService';
 
 const getClient = (params?: PagSeguroConfig): PagSeguroClient => {
   if (!params || !validateConfig(params)) {
@@ -25,23 +25,12 @@ const getClient = (params?: PagSeguroConfig): PagSeguroClient => {
 
   const config: PagSeguroRequestOptions = {
     logger: log,
-    env: params.env,
-    appId: params.appId,
-    appKey: params.appKey,
-    notificationURL: params.notificationURL,
-    redirectURL: params.redirectURL,
-    base: {
+    config: params,
+    api: {
       base: getBaseUrl('base', params.env),
       static: getBaseUrl('static', params.env),
       webservice: getBaseUrl('webservice', params.env),
-    },
-    wsConfig,
-    jsonToXml: object => {
-      // eslint-disable-next-line new-cap
-      return new j2xParser({ format: true }).parse(object);
-    },
-    xmlToJson: xml => {
-      return xml2js.parse(xml, { trimValues: true });
+      config: wsConfig,
     },
     qs: {
       email: params.email,
@@ -112,23 +101,13 @@ const getClient = (params?: PagSeguroConfig): PagSeguroClient => {
     },
   };
 
-  /**
-   * Resources
-   */
-  const rs: any = {};
-  const resourcesAny = resources as any;
-  Object.keys(resourcesAny).forEach(i => {
-    rs[i] = { ...resourcesAny[i] };
-    Object.keys(rs[i]).forEach(r => {
-      if (validate.isFunction(rs[i][r])) {
-        rs[i][r] = rs[i][r].bind(null, config);
-      }
-    });
-  });
-
   return {
     sessionService: new SessionService(config),
     installmentService: new InstallmentService(config),
+    authorizationService: new AuthorizationService(config),
+    checkoutTransparente: {
+      boletoService: new BoletoService(config),
+    },
   };
 };
 

@@ -3,4 +3,5 @@ export interface PagSeguroAccount {
   email?: string;
   password?: string;
   publicKey?: string;
+  type?: string;
 }

@@ -1,6 +1,8 @@
 import clone from 'clone';
 import ip from 'ip';
 import validate from './helper/validate';
+import { PagSeguroAccount } from './interfaces/PagSeguroAccount';
+import { PagSeguroItem } from './interfaces/PagSeguroItem';
 
 /**
  * sender
@@ -236,20 +238,24 @@ function extraAmount(extraAmount: string) {
 
 /**
  * items
- * @param {Array} items
+ * @param {Array} objects
  * @return {Object}
  */
-function items(items: any[]) {
-  if (!validate.isArray(items)) {
+function items(
+  objects: PagSeguroItem[]
+): {
+  item: PagSeguroItem[];
+} {
+  if (!validate.isArray(objects)) {
     return { item: [] };
   }
 
-  items = clone(items);
+  objects = clone(objects);
 
   return {
-    item: items.map(item => {
+    item: objects.map(item => {
       if (item.amount) {
-        item.amount = Number(item.amount).toFixed(2);
+        item.amount = Number(item.amount.toFixed(2));
       }
       return item;
     }),
@@ -338,19 +344,19 @@ function company(company: any) {
 
 /**
  * account
- * @param {Object} account
+ * @param {Object} object
  * @return {Object}
  */
-function account(account?: { type: string }) {
-  if (!validate.isObject(account)) {
+function account(object?: PagSeguroAccount) {
+  if (!validate.isObject(object)) {
     return {};
   }
 
-  switch (account?.type) {
+  switch (object?.type) {
     case 'PERSON':
-      return person(account);
+      return person(object);
     case 'COMPANY':
-      return company(account);
+      return company(object);
     default:
       return {};
   }

@@ -1,5 +1,5 @@
-import requestModule from 'request-promise';
-import config from '../config';
+import requestPromise from 'request-promise';
+import api from '../config/api';
 import format from '../format';
 import PagSeguroError from '../errors/PagSeguroError';
 
@@ -33,9 +33,9 @@ const request = async (
   };
 
   try {
-    const response = await requestModule({
+    const response = await requestPromise({
       ...opts,
-      url: `${opts.base.webservice}/${config.authorization.request}?appId=${query.appId}&appKey=${query.appKey}`,
+      url: `${opts.base.webservice}/${api.authorization.request}?appId=${query.appId}&appKey=${query.appKey}`,
       method: 'POST',
       body: opts.jsonToXml({ authorizationRequest: body }),
     });
@@ -46,7 +46,7 @@ const request = async (
       ...response,
       content: {
         code,
-        link: `${opts.base.base}/${config.authorization.response}?code=${code}`,
+        link: `${opts.base.base}/${api.authorization.response}?code=${code}`,
       },
     };
   } catch ({ response }) {
@@ -64,9 +64,9 @@ const notification = async (
       appKey: opts.appKey,
     };
 
-    const response = await requestModule({
+    const response = await requestPromise({
       transform: opts.transform,
-      url: `${opts.base.webservice}/${config.authorization.notification}/${notificationCode}?appId=${query.appId}&appKey=${query.appKey}`,
+      url: `${opts.base.webservice}/${api.authorization.notification}/${notificationCode}?appId=${query.appId}&appKey=${query.appKey}`,
       method: 'GET',
     });
 

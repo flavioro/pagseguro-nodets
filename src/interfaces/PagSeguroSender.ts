@@ -1,11 +1,14 @@
-import { PagSeguroDocument } from './PagSeguroDocument';
-import { PagSeguroPhone } from './PagSeguroPhone';
-
 export interface PagSeguroSender {
-  ip?: string;
-  name?: string;
-  email?: string;
-  phone?: PagSeguroPhone;
-  document?: PagSeguroDocument;
-  documents?: PagSeguroDocument[];
+  name: string;
+  email: string;
+  phone: {
+    areaCode: string;
+    number: string;
+  };
+  documents: {
+    document: {
+      type: string;
+      value: string;
+    }[];
+  };
 }

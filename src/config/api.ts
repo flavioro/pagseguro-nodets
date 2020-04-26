@@ -1,6 +1,6 @@
-import { PagSeguroWsConfig } from './interfaces/PagSeguroWsConfig';
+import { PagSeguroWsConfig } from '../interfaces/PagSeguroWsConfig';
 
-const config: PagSeguroWsConfig = {
+const api: PagSeguroWsConfig = {
   base: {
     production: 'https://pagseguro.uol.com.br',
     sandbox: 'https://sandbox.pagseguro.uol.com.br',
@@ -65,4 +65,4 @@ const config: PagSeguroWsConfig = {
   },
 };
 
-export default config;
+export default api;

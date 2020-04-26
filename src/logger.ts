@@ -1,4 +1,4 @@
-import { createLogger, format, transports, Logger } from 'winston';
+import { createLogger, format, Logger, transports } from 'winston';
 
 export default (filename: string, debug: boolean): Logger => {
   const logger = createLogger({

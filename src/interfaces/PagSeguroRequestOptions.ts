@@ -1,21 +1,15 @@
 import { Logger } from 'winston';
 import { RequestPromiseOptions } from 'request-promise';
-import { PagSeguroEnv } from './PagSeguroTypes';
 import { PagSeguroWsConfig } from './PagSeguroWsConfig';
+import { PagSeguroConfig } from './PagSeguroConfig';
 
 export interface PagSeguroRequestOptions extends RequestPromiseOptions {
   logger?: Logger;
-  env?: PagSeguroEnv;
-  appId?: string;
-  appKey?: string;
-  notificationURL?: string;
-  redirectURL?: string;
-  base: {
+  config: PagSeguroConfig;
+  api: {
     base: string;
     static: string;
     webservice: string;
+    config: PagSeguroWsConfig;
   };
-  jsonToXml: (object: object) => string;
-  xmlToJson: (xml: string) => object;
-  wsConfig: PagSeguroWsConfig;
 }

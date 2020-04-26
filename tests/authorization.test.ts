@@ -1,29 +1,30 @@
-import pagseguro from '../src';
 import PagSeguroError from '../src/errors/PagSeguroError';
+import getClient from '../src/GetClient';
+import testConfig from '../src/TestConfig';
 
-describe('Authorization', () => {
-  it('success', async () => {
-    const client = pagseguro.connect(pagseguro.testConfig.pagseguro);
-    const response = await client.authorization.request();
+describe('Authorization', async () => {
+  const client = getClient(testConfig.pagseguro);
+
+  await it('success', async () => {
+    const response = await client.authorizationService.request({});
 
     expect(typeof response).toEqual('object');
     expect(response).toHaveProperty('statusCode', 200);
     expect(response).toHaveProperty('status', 'success');
     expect(response).toHaveProperty('content');
-    expect(response.content).toHaveProperty('code');
-    expect(response.content.code).toHaveLength(32);
+    expect(response).toHaveProperty('code');
+    expect(response.code).toHaveLength(32);
   });
 
   it('unauthorized', async () => {
     try {
       const configError = {
-        ...pagseguro.testConfig.pagseguro,
+        ...testConfig.pagseguro,
         appId: '',
         appKey: '',
         redirectURL: '',
       };
-      const client = pagseguro.connect(configError);
-      await client.authorization.request();
+      await getClient(configError).authorizationService.request({});
     } catch (e) {
       expect(typeof e).toEqual('object');
       expect(e).toBeInstanceOf(PagSeguroError);
@@ -36,11 +37,11 @@ describe('Authorization', () => {
 
   // it.only('unsing person account', async function() {
   //
-  //     const client = pagseguro.connect(config.pagseguro)
+  //     const client = pagseguro.connect(api.pagseguro)
   //
   //     const params = {
   //         ...this.params,
-  //         account: config.person
+  //         account: api.person
   //     }
   //
   //     // console.log(params)

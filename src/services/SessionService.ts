@@ -1,8 +1,19 @@
-import request from 'request-promise';
-import { PagSeguroResponse } from '../interfaces/PagSeguroResponse';
+import requestPromise from 'request-promise';
+import { Response } from 'request';
 import PagSeguroError from '../errors/PagSeguroError';
 import { PagSeguroRequestOptions } from '../interfaces/PagSeguroRequestOptions';
 
+interface SessionResponse extends Response {
+  session: {
+    id: string;
+  };
+}
+
+/**
+ * Este serviço é utilizado em:
+ * CHECKOUT TRANSPARENTE;
+ * SPLIT DE PAGAMENTO;
+ */
 export default class SessionService {
   private readonly opts: PagSeguroRequestOptions;
 
@@ -10,17 +21,25 @@ export default class SessionService {
     this.opts = opts;
   }
 
-  async get(): Promise<PagSeguroResponse> {
+  async get(): Promise<SessionResponse> {
     try {
-      const response = await request({
-        ...this.opts,
-        url: `${this.opts.base.webservice}/${this.opts.wsConfig.session}`,
+      const response = await requestPromise({
+        qs: {
+          email: this.opts.config.email,
+          token: this.opts.config.token,
+        },
+        headers: {
+          Accept: 'application/vnd.pagseguro.com.br.v3+xml',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        transform: this.opts.transform,
+        url: `${this.opts.api.webservice}/v2/sessions`,
         method: 'POST',
       });
 
       return {
         ...response,
-        content: response.content.session.id,
+        session: response.content.session,
       };
     } catch (e) {
       const error = { ...e.response };
