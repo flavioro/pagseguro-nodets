@@ -5,7 +5,7 @@ import testConfig from '../src/TestConfig';
 describe('Authorization', async () => {
   const client = getClient(testConfig.pagseguro);
 
-  await it('success', async () => {
+  it('success', async () => {
     const response = await client.authorizationService.request({});
 
     expect(typeof response).toEqual('object');

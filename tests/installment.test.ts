@@ -6,7 +6,7 @@ describe('Installment', async () => {
   const client = getClient(testConfig.pagseguro);
   const { session } = await client.sessionService.get();
 
-  await it('success', async () => {
+  it('success', async () => {
     const response = await client.installmentService.get({
       sessionId: session.id,
       amount: 30.0,
@@ -21,7 +21,7 @@ describe('Installment', async () => {
     expect(Array.isArray(response.installments)).toEqual(true);
   });
 
-  await it('invalid cardBrand', async () => {
+  it('invalid cardBrand', async () => {
     try {
       await client.installmentService.get({
         sessionId: session.id,
@@ -39,7 +39,7 @@ describe('Installment', async () => {
     }
   });
 
-  await it('invalid amount', async () => {
+  it('invalid amount', async () => {
     try {
       await client.installmentService.get({
         sessionId: session.id,
@@ -57,7 +57,7 @@ describe('Installment', async () => {
     }
   });
 
-  await it('invalid maxInstallmentNoInterest', async () => {
+  it('invalid maxInstallmentNoInterest', async () => {
     try {
       await client.installmentService.get({
         sessionId: session.id,

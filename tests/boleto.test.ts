@@ -4,7 +4,7 @@ import getClient from '../src/GetClient';
 describe('Transaction', async () => {
   const client = getClient(testConfig.pagseguro);
 
-  await it('boleto', async () => {
+  it('boleto', async () => {
     const data = testConfig.payment;
 
     const response = await client.checkoutTransparente.boletoService.transaction(
