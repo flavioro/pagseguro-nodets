@@ -1,7 +1,7 @@
-import testConfig from '../src/TestConfig';
-import getClient from '../src/GetClient';
+import testConfig from '../../src/TestConfig';
+import getClient from '../../src/GetClient';
 
-describe('Transaction', async () => {
+describe('Transaction', () => {
   const client = getClient(testConfig.pagseguro);
 
   it('boleto', async () => {
@@ -21,7 +21,5 @@ describe('Transaction', async () => {
     expect(response).toHaveProperty('statusCode', 200);
     expect(response).toHaveProperty('status', 'success');
     expect(response).toHaveProperty('content');
-
-    console.log(response.transaction);
   });
 });

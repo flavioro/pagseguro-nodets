@@ -1,8 +1,8 @@
 import requestPromise from 'request-promise';
 import { Response } from 'request';
 import PagSeguroError from '../../errors/PagSeguroError';
-import { PagSeguroRequestOptions } from '../../interfaces/PagSeguroRequestOptions';
-import { jsonToXml } from '../../helper/utils';
+import { PagSeguroClientOptions } from '../../interfaces/PagSeguroClientOptions';
+import { jsonToXml } from '../../helper/GetBaseUrl';
 import { PagSeguroSender } from '../../interfaces/PagSeguroSender';
 import { PagSeguroItem } from '../../interfaces/PagSeguroItem';
 import { PagSeguroShipping } from '../../interfaces/PagSeguroShipping';
@@ -47,9 +47,9 @@ interface DebitoOnlineResponse extends Response {
 }
 
 export default class DebitoOnlineService {
-  private readonly opts: PagSeguroRequestOptions;
+  private readonly opts: PagSeguroClientOptions;
 
-  constructor(opts: PagSeguroRequestOptions) {
+  constructor(opts: PagSeguroClientOptions) {
     this.opts = opts;
   }
 
@@ -66,7 +66,7 @@ export default class DebitoOnlineService {
           'Content-Type': 'application/xml',
         },
         transform: this.opts.transform,
-        url: `${this.opts.api.webservice}/v2/transactions`,
+        url: `${this.opts.api}/v2/transactions`,
         method: 'POST',
         body: jsonToXml({
           payment: {
@@ -83,7 +83,8 @@ export default class DebitoOnlineService {
         transaction: response.content.transaction,
       };
     } catch ({ response }) {
-      throw new PagSeguroError(response);
+      const { status, statusText, content } = response;
+      throw new PagSeguroError(status, statusText, content);
     }
   }
 }

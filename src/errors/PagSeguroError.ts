@@ -1,20 +1,31 @@
 import PagSeguroErrorCodes from './PagSeguroErrorCodes';
-import { PagSeguroResponse } from '../interfaces/PagSeguroResponse';
+
+interface PagSeguroErrorContent {
+  code: number;
+  message?: string;
+}
 
 class PagSeguroError extends Error {
   public readonly status: string;
   public readonly statusCode: number;
-  public readonly content: any[] | undefined;
+  public readonly content: PagSeguroErrorContent[];
 
-  constructor({ status, statusCode, content }: PagSeguroResponse) {
+  constructor(
+    status: string,
+    statusCode: number,
+    content: PagSeguroErrorContent | PagSeguroErrorContent[]
+  ) {
     super();
     Object.setPrototypeOf(this, new.target.prototype);
 
     this.status = status || 'error';
     this.statusCode = statusCode || 500;
+    this.content = [];
 
     if (content) {
-      const localeError = (error: { code: any; message?: any }) => {
+      const localeError = (
+        error: PagSeguroErrorContent
+      ): PagSeguroErrorContent => {
         return {
           ...error,
           message: PagSeguroErrorCodes[error.code] || error.message,

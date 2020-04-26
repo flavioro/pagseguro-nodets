@@ -1,19 +1,8 @@
 /**
  * pagseguro
  */
-import { PagSeguroAccount } from './interfaces/PagSeguroAccount';
-import { PagSeguroSender } from './interfaces/PagSeguroSender';
-import { PagSeguroAddress } from './interfaces/PagSeguroAddress';
-import { PagSeguroBilling } from './interfaces/PagSeguroBilling';
-import { PagSeguroShipping } from './interfaces/PagSeguroShipping';
-import { PagSeguroItem } from './interfaces/PagSeguroItem';
-import { PagSeguroHolder } from './interfaces/PagSeguroHolder';
-import { PagSeguroInstallment } from './interfaces/PagSeguroInstallment';
-import { PagSeguroPerson } from './interfaces/PagSeguroPerson';
-import { PagSeguroCompany } from './interfaces/PagSeguroCompany';
-import { PagSeguroConfig } from './interfaces/PagSeguroConfig';
 
-const pagseguro: PagSeguroConfig = {
+const pagseguro: any = {
   email: 'vhmf171@hotmail.com', // email da conta do pagseguro
   token: '2C233DAC692E48D7A30D4F5946FCA8E9', // token pagseguro
   appId: 'app5602760038', // ID da aplicação (pagamento recorrente)
@@ -29,7 +18,7 @@ const pagseguro: PagSeguroConfig = {
  * acounts
  * @link https://sandbox.pagseguro.uol.com.br/aplicacao/configuracoes.html
  */
-const accounts: PagSeguroAccount[] = [
+const accounts: any[] = [
   {
     name: 'Vendedor 01',
     email: 'v70979766516657201987@sandbox.pagseguro.com.br',
@@ -53,7 +42,7 @@ const accounts: PagSeguroAccount[] = [
 /**
  * sender
  */
-const sender: PagSeguroSender = {
+const sender: any = {
   name: 'Victor Hugo',
   email: 'c91591689132102051158@sandbox.pagseguro.com.br',
   phone: {
@@ -73,7 +62,7 @@ const sender: PagSeguroSender = {
 /**
  * address
  */
-const address: PagSeguroAddress = {
+const address: any = {
   street: 'Rua Julio de Oliveira',
   number: 194,
   complement: 'Casa',
@@ -87,12 +76,12 @@ const address: PagSeguroAddress = {
 /**
  * billing
  */
-const billing: PagSeguroBilling = { ...address };
+const billing: any = { ...address };
 
 /**
  * shipping
  */
-const shipping: PagSeguroShipping = {
+const shipping: any = {
   addressRequired: false,
   address,
   type: 1,
@@ -102,31 +91,33 @@ const shipping: PagSeguroShipping = {
 /**
  * items
  */
-const items: PagSeguroItem[] = [
-  {
-    id: 1,
-    description: 'Produto 1',
-    quantity: 2,
-    amount: 2,
-  },
-  {
-    id: 2,
-    description: 'Produto 2',
-    quantity: 1,
-    amount: 60.0,
-  },
-  {
-    id: 3,
-    description: 'Produto 3',
-    quantity: 2,
-    amount: 20.0,
-  },
-];
+const items = {
+  item: [
+    {
+      id: 1,
+      description: 'Produto 1',
+      quantity: 2,
+      amount: 2,
+    },
+    {
+      id: 2,
+      description: 'Produto 2',
+      quantity: 1,
+      amount: 60.0,
+    },
+    {
+      id: 3,
+      description: 'Produto 3',
+      quantity: 2,
+      amount: 20.0,
+    },
+  ],
+};
 
 /**
  * holder
  */
-const holder: PagSeguroHolder = {
+const holder: any = {
   ...sender,
   birthDate: '27/06/1998',
 };
@@ -134,7 +125,7 @@ const holder: PagSeguroHolder = {
 /**
  * installment
  */
-const installment: PagSeguroInstallment = {
+const installment: any = {
   installmentAmount: 124,
   interestFree: true,
   quantity: 1,
@@ -144,7 +135,7 @@ const installment: PagSeguroInstallment = {
 /**
  * person
  */
-const person: PagSeguroPerson = {
+const person: any = {
   email: accounts[0].email,
   type: 'SELLER',
   person: {
@@ -174,7 +165,7 @@ const person: PagSeguroPerson = {
 /**
  * company
  */
-const company: PagSeguroCompany = {
+const company: any = {
   email: accounts[1].email,
   type: 'COMPANY',
   company: {

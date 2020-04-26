@@ -1,15 +1,20 @@
 import xml2js from 'fast-xml-parser';
 import { Logger } from 'winston';
-import logger from './logger';
-import { getBaseUrl, validateConfig } from './helper/utils';
-import wsConfig from './config/api';
+import logger from './Logger';
 import { PagSeguroConfig } from './interfaces/PagSeguroConfig';
-import { PagSeguroRequestOptions } from './interfaces/PagSeguroRequestOptions';
+import { PagSeguroClientOptions } from './interfaces/PagSeguroClientOptions';
 import { PagSeguroClient } from './interfaces/PagSeguroClient';
 import SessionService from './services/SessionService';
-import InstallmentService from './services/InstallmentService';
 import BoletoService from './services/checkout-transparente/BoletoService';
-import AuthorizationService from './services/AuthorizationService';
+import CancelarTransacaoService from './services/checkout-transparente/CancelarTransacaoService';
+import CartaoCreditoService from './services/checkout-transparente/CartaoCreditoService';
+import ConsultarNotificacaoService from './services/checkout-transparente/ConsultarNotificacaoService';
+import ConsultarTransacaoService from './services/checkout-transparente/ConsultarTransacaoService';
+import ConsultarTransacoesService from './services/checkout-transparente/ConsultarTransacoesService';
+import DebitoOnlineService from './services/checkout-transparente/DebitoOnlineService';
+import EstornarTransacaoService from './services/checkout-transparente/EstornarTransacaoService';
+import validateConfig from './helper/ValidateConfig';
+import getBaseUrl from './helper/GetBaseUrl';
 
 const getClient = (params?: PagSeguroConfig): PagSeguroClient => {
   if (!params || !validateConfig(params)) {
@@ -23,23 +28,10 @@ const getClient = (params?: PagSeguroConfig): PagSeguroClient => {
     log = logger(params.log, params.debug);
   }
 
-  const config: PagSeguroRequestOptions = {
+  const config: PagSeguroClientOptions = {
     logger: log,
     config: params,
-    api: {
-      base: getBaseUrl('base', params.env),
-      static: getBaseUrl('static', params.env),
-      webservice: getBaseUrl('webservice', params.env),
-      config: wsConfig,
-    },
-    qs: {
-      email: params.email,
-      token: params.token,
-    },
-    headers: {
-      'Content-Type': 'application/xml',
-      // Accept: "application/vnd.pagseguro.com.br.v3+xml"
-    },
+    api: getBaseUrl(params.env),
     transform: (body, response) => {
       const status = response.statusCode <= 200 ? 'success' : 'error';
 
@@ -103,10 +95,15 @@ const getClient = (params?: PagSeguroConfig): PagSeguroClient => {
 
   return {
     sessionService: new SessionService(config),
-    installmentService: new InstallmentService(config),
-    authorizationService: new AuthorizationService(config),
     checkoutTransparente: {
       boletoService: new BoletoService(config),
+      cancelarTransacaoService: new CancelarTransacaoService(config),
+      cartaoCreditoService: new CartaoCreditoService(config),
+      consultarNotificaoService: new ConsultarNotificacaoService(config),
+      consultarTransacaoService: new ConsultarTransacaoService(config),
+      consultarTransacoesService: new ConsultarTransacoesService(config),
+      debitoOnlineService: new DebitoOnlineService(config),
+      estornarTransacaoService: new EstornarTransacaoService(config),
     },
   };
 };

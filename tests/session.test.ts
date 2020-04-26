@@ -2,22 +2,22 @@ import PagSeguroError from '../src/errors/PagSeguroError';
 import getClient from '../src/GetClient';
 import testConfig from '../src/TestConfig';
 
-describe('Session', async () => {
-  await test('success', async () => {
+describe('Session', () => {
+  it('success', async () => {
     const client = getClient(testConfig.pagseguro);
-    const session = await client.sessionService.get();
+    const { session } = await client.sessionService.get();
 
     expect(typeof session).toEqual('object');
-    expect(session).toHaveProperty('content');
-    expect(session.session).toHaveLength(32);
+    expect(session).toHaveProperty('id');
+    expect(session.id).toHaveLength(32);
   });
 
-  await test('unauthorized', async () => {
+  it('unauthorized', async () => {
     try {
       const configError = {
         ...testConfig.pagseguro,
-        email: '',
-        token: '',
+        email: 'q',
+        token: 'a',
       };
       await getClient(configError).sessionService.get();
     } catch (e) {

@@ -1,7 +1,7 @@
 import requestPromise from 'request-promise';
 import { Response } from 'request';
 import PagSeguroError from '../../errors/PagSeguroError';
-import { PagSeguroRequestOptions } from '../../interfaces/PagSeguroRequestOptions';
+import { PagSeguroClientOptions } from '../../interfaces/PagSeguroClientOptions';
 import { PagSeguroItem } from '../../interfaces/PagSeguroItem';
 import { PagSeguroSender } from '../../interfaces/PagSeguroSender';
 import { PagSeguroShipping } from '../../interfaces/PagSeguroShipping';
@@ -41,9 +41,9 @@ interface ConsultarNotificacaoResponse extends Response {
 }
 
 export default class ConsultarNotificacaoService {
-  private readonly opts: PagSeguroRequestOptions;
+  private readonly opts: PagSeguroClientOptions;
 
-  constructor(opts: PagSeguroRequestOptions) {
+  constructor(opts: PagSeguroClientOptions) {
     this.opts = opts;
   }
 
@@ -60,7 +60,7 @@ export default class ConsultarNotificacaoService {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         transform: this.opts.transform,
-        url: `${this.opts.api.webservice}/v3/transactions/notifications/${notificationCode}`,
+        url: `${this.opts.api}/v3/transactions/notifications/${notificationCode}`,
         method: 'GET',
       });
 
@@ -69,7 +69,8 @@ export default class ConsultarNotificacaoService {
         transaction: response.content.transaction,
       };
     } catch ({ response }) {
-      throw new PagSeguroError(response);
+      const { status, statusText, content } = response;
+      throw new PagSeguroError(status, statusText, content);
     }
   }
 }

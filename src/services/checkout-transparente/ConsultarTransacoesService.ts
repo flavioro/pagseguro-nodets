@@ -1,7 +1,7 @@
 import requestPromise from 'request-promise';
 import { Response } from 'request';
 import PagSeguroError from '../../errors/PagSeguroError';
-import { PagSeguroRequestOptions } from '../../interfaces/PagSeguroRequestOptions';
+import { PagSeguroClientOptions } from '../../interfaces/PagSeguroClientOptions';
 
 interface ConsultarTransacoesRequest {
   reference: string;
@@ -40,9 +40,9 @@ interface ConsultarTransacoesResponse extends Response {
 }
 
 export default class ConsultarTransacoesService {
-  private readonly opts: PagSeguroRequestOptions;
+  private readonly opts: PagSeguroClientOptions;
 
-  constructor(opts: PagSeguroRequestOptions) {
+  constructor(opts: PagSeguroClientOptions) {
     this.opts = opts;
   }
 
@@ -68,7 +68,7 @@ export default class ConsultarTransacoesService {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         transform: this.opts.transform,
-        url: `${this.opts.api.webservice}/v3/transactions`,
+        url: `${this.opts.api}/v3/transactions`,
         method: 'GET',
       });
 
@@ -77,7 +77,8 @@ export default class ConsultarTransacoesService {
         transactionSearchResult: response.content.transactionSearchResult,
       };
     } catch ({ response }) {
-      throw new PagSeguroError(response);
+      const { status, statusText, content } = response;
+      throw new PagSeguroError(status, statusText, content);
     }
   }
 }

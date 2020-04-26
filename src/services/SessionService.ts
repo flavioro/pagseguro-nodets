@@ -1,7 +1,7 @@
 import requestPromise from 'request-promise';
 import { Response } from 'request';
 import PagSeguroError from '../errors/PagSeguroError';
-import { PagSeguroRequestOptions } from '../interfaces/PagSeguroRequestOptions';
+import { PagSeguroClientOptions } from '../interfaces/PagSeguroClientOptions';
 
 interface SessionResponse extends Response {
   session: {
@@ -9,15 +9,10 @@ interface SessionResponse extends Response {
   };
 }
 
-/**
- * Este serviço é utilizado em:
- * CHECKOUT TRANSPARENTE;
- * SPLIT DE PAGAMENTO;
- */
 export default class SessionService {
-  private readonly opts: PagSeguroRequestOptions;
+  private readonly opts: PagSeguroClientOptions;
 
-  constructor(opts: PagSeguroRequestOptions) {
+  constructor(opts: PagSeguroClientOptions) {
     this.opts = opts;
   }
 
@@ -28,12 +23,8 @@ export default class SessionService {
           email: this.opts.config.email,
           token: this.opts.config.token,
         },
-        headers: {
-          Accept: 'application/vnd.pagseguro.com.br.v3+xml',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
         transform: this.opts.transform,
-        url: `${this.opts.api.webservice}/v2/sessions`,
+        url: `${this.opts.api}/v2/sessions`,
         method: 'POST',
       });
 
@@ -41,10 +32,9 @@ export default class SessionService {
         ...response,
         session: response.content.session,
       };
-    } catch (e) {
-      const error = { ...e.response };
-      if (error.content && error.content === 'Unauthorized') {
-        error.content = [
+    } catch ({ response }) {
+      if (response.content && response.content === 'Unauthorized') {
+        response.content = [
           {
             code: 401,
             message: 'Unauthorized',
@@ -52,7 +42,8 @@ export default class SessionService {
         ];
       }
 
-      throw new PagSeguroError(error);
+      const { status, statusText, content } = response;
+      throw new PagSeguroError(status, statusText, content);
     }
   }
 }

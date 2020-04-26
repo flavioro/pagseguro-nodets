@@ -1,7 +1,7 @@
 import requestPromise from 'request-promise';
 import { Response } from 'request';
 import PagSeguroError from '../../errors/PagSeguroError';
-import { PagSeguroRequestOptions } from '../../interfaces/PagSeguroRequestOptions';
+import { PagSeguroClientOptions } from '../../interfaces/PagSeguroClientOptions';
 
 interface CancelarTransacaoRequest {
   transactionCode: string;
@@ -12,9 +12,9 @@ interface CancelarTransacaoResponse extends Response {
 }
 
 export default class CancelarTransacaoService {
-  private readonly opts: PagSeguroRequestOptions;
+  private readonly opts: PagSeguroClientOptions;
 
-  constructor(opts: PagSeguroRequestOptions) {
+  constructor(opts: PagSeguroClientOptions) {
     this.opts = opts;
   }
 
@@ -32,7 +32,7 @@ export default class CancelarTransacaoService {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         transform: this.opts.transform,
-        url: `${this.opts.api.webservice}/v2/transactions/cancels/`,
+        url: `${this.opts.api}/v2/transactions/cancels/`,
         method: 'POST',
       });
 
@@ -41,7 +41,8 @@ export default class CancelarTransacaoService {
         result: response.content.result,
       };
     } catch ({ response }) {
-      throw new PagSeguroError(response);
+      const { status, statusText, content } = response;
+      throw new PagSeguroError(status, statusText, content);
     }
   }
 }
