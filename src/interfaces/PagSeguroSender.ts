@@ -1,5 +1,5 @@
-import {PagSeguroDocument} from './PagSeguroDocument';
-import {PagSeguroPhone} from './PagSeguroPhone';
+import { PagSeguroDocument } from './PagSeguroDocument';
+import { PagSeguroPhone } from './PagSeguroPhone';
 
 export interface PagSeguroSender {
   ip?: string;

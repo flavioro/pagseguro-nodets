@@ -1,6 +1,6 @@
-import {PagSeguroDocument} from './PagSeguroDocument';
-import {PagSeguroPhone} from './PagSeguroPhone';
-import {PagSeguroAddress} from './PagSeguroAddress';
+import { PagSeguroDocument } from './PagSeguroDocument';
+import { PagSeguroPhone } from './PagSeguroPhone';
+import { PagSeguroAddress } from './PagSeguroAddress';
 
 export interface PagSeguroCompany {
   email?: string;

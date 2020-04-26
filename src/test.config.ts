@@ -1,17 +1,17 @@
 /**
  * pagseguro
  */
-import {PagSeguroAccount} from './interfaces/PagSeguroAccount';
-import {PagSeguroSender} from './interfaces/PagSeguroSender';
-import {PagSeguroAddress} from './interfaces/PagSeguroAddress';
-import {PagSeguroBilling} from './interfaces/PagSeguroBilling';
-import {PagSeguroShipping} from './interfaces/PagSeguroShipping';
-import {PagSeguroItem} from './interfaces/PagSeguroItem';
-import {PagSeguroHolder} from './interfaces/PagSeguroHolder';
-import {PagSeguroInstallment} from './interfaces/PagSeguroInstallment';
-import {PagSeguroPerson} from './interfaces/PagSeguroPerson';
-import {PagSeguroCompany} from './interfaces/PagSeguroCompany';
-import {PagSeguroConfig} from './interfaces/PagSeguroConfig';
+import { PagSeguroAccount } from './interfaces/PagSeguroAccount';
+import { PagSeguroSender } from './interfaces/PagSeguroSender';
+import { PagSeguroAddress } from './interfaces/PagSeguroAddress';
+import { PagSeguroBilling } from './interfaces/PagSeguroBilling';
+import { PagSeguroShipping } from './interfaces/PagSeguroShipping';
+import { PagSeguroItem } from './interfaces/PagSeguroItem';
+import { PagSeguroHolder } from './interfaces/PagSeguroHolder';
+import { PagSeguroInstallment } from './interfaces/PagSeguroInstallment';
+import { PagSeguroPerson } from './interfaces/PagSeguroPerson';
+import { PagSeguroCompany } from './interfaces/PagSeguroCompany';
+import { PagSeguroConfig } from './interfaces/PagSeguroConfig';
 
 const pagseguro: PagSeguroConfig = {
   email: 'vhmf171@hotmail.com', // email da conta do pagseguro
@@ -83,7 +83,7 @@ const address: PagSeguroAddress = {
 /**
  * billing
  */
-const billing: PagSeguroBilling = {...address};
+const billing: PagSeguroBilling = { ...address };
 
 /**
  * shipping

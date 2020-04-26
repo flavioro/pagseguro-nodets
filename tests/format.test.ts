@@ -67,7 +67,7 @@ describe('Format', () => {
         configPayment
       );
 
-      configPayment.billing = {addressRequired: false};
+      configPayment.billing = { addressRequired: false };
       _formatted = pagseguro.format.creditCard(
         configPayment.creditCard,
         configPayment

@@ -1,4 +1,4 @@
-import {PagSeguroEnv} from './PagSeguroTypes';
+import { PagSeguroEnv } from './PagSeguroTypes';
 
 export interface PagSeguroConfig {
   email: string;

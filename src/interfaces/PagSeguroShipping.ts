@@ -1,4 +1,4 @@
-import {PagSeguroAddress} from './PagSeguroAddress';
+import { PagSeguroAddress } from './PagSeguroAddress';
 
 export interface PagSeguroShipping extends PagSeguroAddress {
   type?: number;

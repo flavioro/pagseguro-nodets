@@ -1,13 +1,13 @@
-import xml2js, {j2xParser} from 'fast-xml-parser';
-import {Logger} from 'winston';
+import xml2js, { j2xParser } from 'fast-xml-parser';
+import { Logger } from 'winston';
 import logger from './logger';
-import {getBaseUrl, validateConfig} from './utils';
+import { getBaseUrl, validateConfig } from './utils';
 import validate from './helper/validate';
 import resources from './resources';
 import wsConfig from './config';
-import {PagSeguroConfig} from './interfaces/PagSeguroConfig';
-import {PagSeguroRequestOptions} from './interfaces/PagSeguroRequestOptions';
-import {PagSeguroClient} from './interfaces/PagSeguroClient';
+import { PagSeguroConfig } from './interfaces/PagSeguroConfig';
+import { PagSeguroRequestOptions } from './interfaces/PagSeguroRequestOptions';
+import { PagSeguroClient } from './interfaces/PagSeguroClient';
 import SessionService from './services/SessionService';
 import InstallmentService from './services/InstallmentService';
 
@@ -38,10 +38,10 @@ const getClient = (params?: PagSeguroConfig): PagSeguroClient => {
     wsConfig,
     jsonToXml: object => {
       // eslint-disable-next-line new-cap
-      return new j2xParser({format: true}).parse(object);
+      return new j2xParser({ format: true }).parse(object);
     },
     xmlToJson: xml => {
-      return xml2js.parse(xml, {trimValues: true});
+      return xml2js.parse(xml, { trimValues: true });
     },
     qs: {
       email: params.email,
@@ -55,7 +55,7 @@ const getClient = (params?: PagSeguroConfig): PagSeguroClient => {
       const status = response.statusCode <= 200 ? 'success' : 'error';
 
       if (xml2js.validate(body) === true) {
-        let content = xml2js.parse(body, {trimValues: true});
+        let content = xml2js.parse(body, { trimValues: true });
 
         if (response.statusCode <= 200) {
           if (log) {
@@ -118,7 +118,7 @@ const getClient = (params?: PagSeguroConfig): PagSeguroClient => {
   const rs: any = {};
   const resourcesAny = resources as any;
   Object.keys(resourcesAny).forEach(i => {
-    rs[i] = {...resourcesAny[i]};
+    rs[i] = { ...resourcesAny[i] };
     Object.keys(rs[i]).forEach(r => {
       if (validate.isFunction(rs[i][r])) {
         rs[i][r] = rs[i][r].bind(null, config);

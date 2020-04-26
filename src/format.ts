@@ -98,7 +98,7 @@ function creditCard(
       | { amount: number; quantity: number; description: string; id: number }
       | { amount: number; quantity: number; description: string; id: number }
       | { amount: number; quantity: number; description: string; id: number }
-      )[];
+    )[];
     billing: {
       number: number;
       country: string;

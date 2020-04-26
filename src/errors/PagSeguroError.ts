@@ -1,12 +1,12 @@
 import PagSeguroErrorCodes from './PagSeguroErrorCodes';
-import {PagSeguroResponse} from '../interfaces/PagSeguroResponse';
+import { PagSeguroResponse } from '../interfaces/PagSeguroResponse';
 
 class PagSeguroError extends Error {
   public readonly status: string;
   public readonly statusCode: number;
   public readonly content: any[] | undefined;
 
-  constructor({status, statusCode, content}: PagSeguroResponse) {
+  constructor({ status, statusCode, content }: PagSeguroResponse) {
     super();
     Object.setPrototypeOf(this, new.target.prototype);
 

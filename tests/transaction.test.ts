@@ -7,7 +7,7 @@ describe('Transaction', () => {
   const client = pagseguro.connect(pagseguro.testConfig.pagseguro);
 
   it('boleto', async () => {
-    const data = {...pagseguro.testConfig.payment};
+    const data = { ...pagseguro.testConfig.payment };
     delete data.creditCard;
     delete data.bank;
 

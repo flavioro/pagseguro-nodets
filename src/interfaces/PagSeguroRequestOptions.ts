@@ -1,7 +1,7 @@
-import {Logger} from 'winston';
-import {RequestPromiseOptions} from 'request-promise';
-import {PagSeguroEnv} from './PagSeguroTypes';
-import {PagSeguroWsConfig} from './PagSeguroWsConfig';
+import { Logger } from 'winston';
+import { RequestPromiseOptions } from 'request-promise';
+import { PagSeguroEnv } from './PagSeguroTypes';
+import { PagSeguroWsConfig } from './PagSeguroWsConfig';
 
 export interface PagSeguroRequestOptions extends RequestPromiseOptions {
   logger?: Logger;

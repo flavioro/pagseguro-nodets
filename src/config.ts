@@ -1,4 +1,4 @@
-import {PagSeguroWsConfig} from './interfaces/PagSeguroWsConfig';
+import { PagSeguroWsConfig } from './interfaces/PagSeguroWsConfig';
 
 const config: PagSeguroWsConfig = {
   base: {

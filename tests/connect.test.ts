@@ -17,7 +17,7 @@ describe('Connect', () => {
   });
 
   it('throw if invalid params', () => {
-    const configError = {...pagseguro.testConfig.pagseguro};
+    const configError = { ...pagseguro.testConfig.pagseguro };
     delete configError.email;
     try {
       pagseguro.connect(configError);

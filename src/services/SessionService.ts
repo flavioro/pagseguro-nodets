@@ -1,7 +1,7 @@
 import request from 'request-promise';
-import {PagSeguroResponse} from '../interfaces/PagSeguroResponse';
+import { PagSeguroResponse } from '../interfaces/PagSeguroResponse';
 import PagSeguroError from '../errors/PagSeguroError';
-import {PagSeguroRequestOptions} from '../interfaces/PagSeguroRequestOptions';
+import { PagSeguroRequestOptions } from '../interfaces/PagSeguroRequestOptions';
 
 export default class SessionService {
   private readonly opts: PagSeguroRequestOptions;
@@ -23,7 +23,7 @@ export default class SessionService {
         content: response.content.session.id,
       };
     } catch (e) {
-      const error = {...e.response};
+      const error = { ...e.response };
       if (error.content && error.content === 'Unauthorized') {
         error.content = [
           {

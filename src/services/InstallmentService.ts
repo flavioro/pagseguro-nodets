@@ -1,7 +1,7 @@
 import request from 'request-promise';
-import {PagSeguroResponse} from '../interfaces/PagSeguroResponse';
+import { PagSeguroResponse } from '../interfaces/PagSeguroResponse';
 import PagSeguroError from '../errors/PagSeguroError';
-import {PagSeguroRequestOptions} from '../interfaces/PagSeguroRequestOptions';
+import { PagSeguroRequestOptions } from '../interfaces/PagSeguroRequestOptions';
 
 interface InstallmentRequest {
   amount: number | string;
@@ -43,7 +43,7 @@ export default class InstallmentService {
           ? response.content.installments.installment
           : [],
       };
-    } catch ({response}) {
+    } catch ({ response }) {
       throw new PagSeguroError(response);
     }
   }

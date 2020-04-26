@@ -1,4 +1,4 @@
-import {Response} from 'request';
+import { Response } from 'request';
 
 export interface PagSeguroResponse extends Response {
   content: any;
