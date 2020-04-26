@@ -1,4 +1,6 @@
-export default {
+import {PagSeguroWsConfig} from './interfaces/PagSeguroWsConfig';
+
+const config: PagSeguroWsConfig = {
   base: {
     production: 'https://pagseguro.uol.com.br',
     sandbox: 'https://sandbox.pagseguro.uol.com.br',
@@ -62,3 +64,5 @@ export default {
     retryPaymentOrder: 'pre-approvals',
   },
 };
+
+export default config;

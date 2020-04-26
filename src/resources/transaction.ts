@@ -1,7 +1,7 @@
 import request from 'request-promise';
 import clone from 'clone';
 import config from '../config';
-import PagSeguroError from '../errors';
+import PagSeguroError from '../errors/PagSeguroError';
 import format from '../format';
 
 /**
@@ -73,7 +73,7 @@ const formatResponse = (rs: { method?: string } = {}, method: string) => {
  * @param {Object} params
  * @ return {Promise}
  */
-const boleto = async (opts: any, params: { method: string }) => {
+const boleto = async (opts: any, params: { method?: string } = {}) => {
   params.method = 'boleto';
   params = formatRequestParams(opts, params);
 
@@ -148,7 +148,7 @@ const creditCard = async (opts: any, params: { method: string }) => {
  * @param {Object} params
  * @ return {Promise}
  */
-const onlineDebit = async (opts: any, params: { method: string }) => {
+const onlineDebit = async (opts: any, params: { method?: string } = {}) => {
   params.method = 'EFT';
   params = formatRequestParams(opts, params);
 

@@ -1,7 +1,7 @@
 import requestModule from 'request-promise';
 import config from '../config';
 import format from '../format';
-import PagSeguroError from '../errors';
+import PagSeguroError from '../errors/PagSeguroError';
 
 const PERMISSIONS = [
   'CREATE_CHECKOUTS',

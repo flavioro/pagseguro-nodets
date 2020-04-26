@@ -1,8 +1,8 @@
 import request from 'request-promise';
 import config from '../config';
-import PagSeguroError from '../errors';
+import PagSeguroError from '../errors/PagSeguroError';
 
-const get = async (opts: any, { ...params }: any): any => {
+const get = async (opts: any, {...params}: any): Promise<any> => {
   if (params.amount && params.amount.toFixed) {
     params.amount = params.amount.toFixed(2);
   }

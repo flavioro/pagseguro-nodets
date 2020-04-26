@@ -4,30 +4,31 @@ import validate from './helper/validate';
 
 /**
  * sender
- * @param {Object} sender
+ * @param {Object} senderObj
  * @return {Object}
  */
-function sender(sender: {
-  document: any;
-  documents: { document: any };
-  ip: string;
+function sender(senderObj: {
+  phone: { number: string; areaCode: string };
+  document: { type: string; value: string };
+  name: string;
+  email: string;
 }): any {
-  if (!validate.isObject(sender)) {
+  if (!validate.isObject(senderObj)) {
     return {};
   }
 
-  sender = clone(sender);
+  senderObj = clone(senderObj);
 
-  if (sender.document) {
-    sender.documents = {
-      document: sender.document || {},
+  if (senderObj.document) {
+    senderObj.documents = {
+      document: senderObj.document || {},
     };
-    delete sender.document;
+    delete senderObj.document;
   }
 
-  sender.ip = ip.address();
+  senderObj.ip = ip.address();
 
-  return sender;
+  return senderObj;
 }
 
 /**
@@ -38,17 +39,77 @@ function sender(sender: {
  */
 function creditCard(
   creditCard: {
-    holder: { documents: { document: any }; document: any };
-    installment: {
-      quantity?: any;
-      value?: any;
-      noInterestInstallmentQuantity?: any;
-      installmentAmount?: any;
-    };
     maxInstallmentNoInterest: number;
-    billingAddress: {};
+    installment: {
+      totalAmount: number;
+      interestFree: boolean;
+      quantity: number;
+      installmentAmount: number;
+    };
+    holder: {
+      phone: { number: string; areaCode: string };
+      document: { type: string; value: string };
+      name: string;
+      birthDate: string;
+      email: string;
+    };
+    token: string;
   },
-  params: { billing?: {} } = {}
+  params?: {
+    reference: string;
+    bank: { name: string };
+    extraAmount: number;
+    shipping: {
+      number: number;
+      country: string;
+      cost: number;
+      city: string;
+      street: string;
+      district: string;
+      postalCode: string;
+      state: string;
+      complement: string;
+      type: number;
+    };
+    sender: {
+      phone: { number: string; areaCode: string };
+      document: { type: string; value: string };
+      name: string;
+      email: string;
+    };
+    creditCard: {
+      maxInstallmentNoInterest: number;
+      installment: {
+        totalAmount: number;
+        interestFree: boolean;
+        quantity: number;
+        installmentAmount: number;
+      };
+      holder: {
+        phone: { number: string; areaCode: string };
+        document: { type: string; value: string };
+        name: string;
+        birthDate: string;
+        email: string;
+      };
+      token: string;
+    };
+    items: (
+      | { amount: number; quantity: number; description: string; id: number }
+      | { amount: number; quantity: number; description: string; id: number }
+      | { amount: number; quantity: number; description: string; id: number }
+      )[];
+    billing: {
+      number: number;
+      country: string;
+      city: string;
+      street: string;
+      district: string;
+      postalCode: string;
+      state: string;
+      complement: string;
+    };
+  }
 ) {
   if (!validate.isObject(creditCard)) {
     return {};

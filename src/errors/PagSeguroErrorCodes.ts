@@ -1,6 +1,8 @@
-import { ErrorCodes } from '../interfaces/ErrorCodes';
+interface ErrorCodes {
+  [index: number]: string;
+}
 
-const errors: ErrorCodes = {
+const PagSeguroErrorCodes: ErrorCodes = {
   401: 'Não autorizado',
   5003: 'falha de comunicação com a instituição financeira',
   10000: 'bandeira inválida',
@@ -121,4 +123,4 @@ const errors: ErrorCodes = {
   56001: 'transaction não encontrado',
 };
 
-export default errors;
+export default PagSeguroErrorCodes;

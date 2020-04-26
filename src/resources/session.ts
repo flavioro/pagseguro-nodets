@@ -1,8 +1,9 @@
 import request from 'request-promise';
 import config from '../config';
-import PagSeguroError from '../errors';
+import PagSeguroError from '../errors/PagSeguroError';
 
-const get = async (opts: any): any => {
+const get = async (opts: any): Promise<any> => {
+  console.log(opts);
   try {
     const response = await request({
       ...opts,
