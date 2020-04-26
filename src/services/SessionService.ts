@@ -1,7 +1,7 @@
 import requestPromise from 'request-promise';
 import { Response } from 'request';
 import PagSeguroError from '../errors/PagSeguroError';
-import { PagSeguroClientOptions } from '../interfaces/PagSeguroClientOptions';
+import BaseService from './BaseService';
 
 interface SessionResponse extends Response {
   session: {
@@ -9,22 +9,16 @@ interface SessionResponse extends Response {
   };
 }
 
-export default class SessionService {
-  private readonly opts: PagSeguroClientOptions;
-
-  constructor(opts: PagSeguroClientOptions) {
-    this.opts = opts;
-  }
-
+export default class SessionService extends BaseService {
   async get(): Promise<SessionResponse> {
     try {
       const response = await requestPromise({
         qs: {
-          email: this.opts.config.email,
-          token: this.opts.config.token,
+          email: this.config.email,
+          token: this.config.token,
         },
-        transform: this.opts.transform,
-        url: `${this.opts.api}/v2/sessions`,
+        transform: this.transformResponseXmlToJson,
+        url: `${this.api}/v2/sessions`,
         method: 'POST',
       });
 

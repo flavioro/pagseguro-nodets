@@ -1,7 +1,7 @@
 import getClient from '../../src/GetClient';
 import { Currency } from '../../src/interfaces/CurrencyType';
 
-describe('Boleto', () => {
+describe('Debito Online', () => {
   const client = getClient({
     email: 'vhmf171@hotmail.com', // email da conta do pagseguro
     token: '2C233DAC692E48D7A30D4F5946FCA8E9', // token pagseguro
@@ -15,7 +15,7 @@ describe('Boleto', () => {
   });
 
   it('sucess', async () => {
-    const response = await client.checkoutTransparente.boletoService.transaction(
+    const response = await client.checkoutTransparente.debitoOnlineService.transaction(
       {
         sender: {
           name: 'Victor Hugo',
@@ -36,19 +36,19 @@ describe('Boleto', () => {
         items: {
           item: [
             {
-              id: 1,
+              id: '1',
               description: 'Produto 1',
               quantity: 2,
               amount: new Currency(2),
             },
             {
-              id: 2,
+              id: '2',
               description: 'Produto 2',
               quantity: 1,
               amount: new Currency(60.0),
             },
             {
-              id: 3,
+              id: '3',
               description: 'Produto 3',
               quantity: 2,
               amount: new Currency(20.0),
@@ -56,7 +56,7 @@ describe('Boleto', () => {
           ],
         },
         extraAmount: new Currency(10.0),
-        reference: 'checkout-transparente/boleto.test.ts',
+        reference: 'checkout-transparente/debito-online.test.ts',
         shipping: {
           address: {
             street: 'Rua Julio de Oliveira',
@@ -70,6 +70,9 @@ describe('Boleto', () => {
           },
           type: 1,
           cost: new Currency(25.0),
+        },
+        bank: {
+          name: 'itau',
         },
       }
     );

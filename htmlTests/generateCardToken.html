@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Generate Card Token</title>
+  <script type="text/javascript" src="./pagseguro.directpayment.js"></script>
+  <script>
+
+    let card = {
+      cardBin: '411111',
+      cardNumber: '4111111111111111',
+      brand: 'visa',
+      cvv: '123',
+      expirationMonth: '12',
+      expirationYear: '2030'
+    };
+
+    PagSeguroDirectPayment.setSessionId('b6b3a1d13cd64dde8bb8e61dda4c60d9');
+    PagSeguroDirectPayment.getBrand({
+      cardBin: card.cardBin,
+      success: response => {
+        console.log('brand', response);
+        createToken(response);
+      },
+      error: response => console.error('brand', response),
+      complete: () => {}
+    });
+
+    function createToken({brand}) {
+      PagSeguroDirectPayment.createCardToken({
+        cardNumber: card.cardNumber,
+        brand: card.brand,
+        cvv: card.cvv,
+        expirationMonth: card.expirationMonth,
+        expirationYear: card.expirationYear,
+        success: response => console.log('token', response),
+        error: response => console.error('token', response),
+        complete: () => {
+        }
+      });
+    }
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>

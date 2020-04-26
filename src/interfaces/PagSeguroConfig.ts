@@ -4,8 +4,9 @@ export interface PagSeguroConfig {
   appId?: string;
   appKey?: string;
   env: 'sandbox' | 'production';
-  log: string;
+  logDir: string;
   debug?: boolean;
+  logResponses?: boolean;
   notificationURL?: string;
   redirectURL?: string;
 }

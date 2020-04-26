@@ -1,7 +1,7 @@
 import getClient from '../../src/GetClient';
 import { Currency } from '../../src/interfaces/CurrencyType';
 
-describe('Boleto', () => {
+describe('Cartão Credito', () => {
   const client = getClient({
     email: 'vhmf171@hotmail.com', // email da conta do pagseguro
     token: '2C233DAC692E48D7A30D4F5946FCA8E9', // token pagseguro
@@ -15,7 +15,7 @@ describe('Boleto', () => {
   });
 
   it('sucess', async () => {
-    const response = await client.checkoutTransparente.boletoService.transaction(
+    const response = await client.checkoutTransparente.cartaoCreditoService.transaction(
       {
         sender: {
           name: 'Victor Hugo',
@@ -36,19 +36,19 @@ describe('Boleto', () => {
         items: {
           item: [
             {
-              id: 1,
+              id: '1',
               description: 'Produto 1',
               quantity: 2,
               amount: new Currency(2),
             },
             {
-              id: 2,
+              id: '2',
               description: 'Produto 2',
               quantity: 1,
               amount: new Currency(60.0),
             },
             {
-              id: 3,
+              id: '3',
               description: 'Produto 3',
               quantity: 2,
               amount: new Currency(20.0),
@@ -56,7 +56,7 @@ describe('Boleto', () => {
           ],
         },
         extraAmount: new Currency(10.0),
-        reference: 'checkout-transparente/boleto.test.ts',
+        reference: 'checkout-transparente/cartao-credito.test.ts',
         shipping: {
           address: {
             street: 'Rua Julio de Oliveira',
@@ -71,13 +71,46 @@ describe('Boleto', () => {
           type: 1,
           cost: new Currency(25.0),
         },
+        creditCard: {
+          token: '145f6d8e4e564ea1a624bb4eb7f4fce0', // see /htmlTests/generateCardToken.html
+          holder: {
+            name: 'Victor Hugo',
+            phone: {
+              areaCode: '48',
+              number: '999048349',
+            },
+            documents: {
+              document: [
+                {
+                  type: 'CPF',
+                  value: '02722185296',
+                },
+              ],
+            },
+            birthDate: '27/06/1998',
+          },
+          installment: {
+            quantity: 1,
+            value: new Currency(139),
+          },
+          billingAddress: {
+            street: 'Rua Julio de Oliveira',
+            number: 194,
+            complement: 'Casa',
+            district: 'Termas',
+            city: 'Gravatal',
+            state: 'SC',
+            country: 'BRA',
+            postalCode: '88735000',
+          },
+        },
       }
     );
 
     expect(typeof response).toEqual('object');
     expect(response).toHaveProperty('status');
     expect(response).toHaveProperty('code');
-    expect(response).toHaveProperty('paymentLink');
+    expect(response).toHaveProperty('gatewaySystem');
 
     console.log(response);
   });

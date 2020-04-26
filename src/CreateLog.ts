@@ -1,6 +1,6 @@
 import { createLogger, format, Logger, transports } from 'winston';
 
-export default (filename: string, debug: boolean): Logger => {
+const createLog = (filename: string, debug = false): Logger => {
   const logger = createLogger({
     format: format.combine(format.timestamp(), format.json()),
     transports: [new transports.File({ filename })],
@@ -18,3 +18,5 @@ export default (filename: string, debug: boolean): Logger => {
 
   return logger;
 };
+
+export default createLog;

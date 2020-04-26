@@ -26,6 +26,8 @@ class PagSeguroError extends Error {
       }
       this.content = content;
     }
+
+    console.log('error', this.status, this.statusCode, this.content);
   }
 }
 

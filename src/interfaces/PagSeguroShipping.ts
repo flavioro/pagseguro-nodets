@@ -1,6 +1,7 @@
 import { currency } from './CurrencyType';
 
 export interface PagSeguroShipping {
+  addressRequired?: boolean;
   address: {
     street: string;
     number: number;

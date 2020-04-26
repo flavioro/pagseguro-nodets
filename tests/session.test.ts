@@ -10,6 +10,7 @@ describe('Session', () => {
     expect(typeof session).toEqual('object');
     expect(session).toHaveProperty('id');
     expect(session.id).toHaveLength(32);
+    console.log(session.id);
   });
 
   it('unauthorized', async () => {

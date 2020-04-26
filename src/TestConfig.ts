@@ -9,8 +9,8 @@ const pagseguro: any = {
   appId: 'app5602760038', // ID da aplicação (pagamento recorrente)
   appKey: 'AA2A53776C6CD50444AA4FB9E9ADE13C', // Key da aplicação (pagemento recorrente)
   env: 'sandbox',
-  log: `${__dirname}/log/pagseguro.log`,
-  debug: false,
+  logDir: `${__dirname}/log/pagseguro.log`,
+  debug: true,
   notificationURL: 'http://localhost:3333/authorization/notification',
   redirectURL: 'http://localhost:3333/authorization/response',
 };

@@ -1,7 +1,8 @@
 import requestPromise from 'request-promise';
 import { Response } from 'request';
 import PagSeguroError from '../../errors/PagSeguroError';
-import { PagSeguroClientOptions } from '../../interfaces/PagSeguroClientOptions';
+import BaseService from '../BaseService';
+import { PagSeguroTransactionResponse } from '../../interfaces/PagSeguroTransactionResponse';
 
 interface ConsultarTransacoesRequest {
   reference: string;
@@ -18,34 +19,12 @@ interface ConsultarTransacoesResponse extends Response {
     resultsInThisPage: number;
     totalPages: number;
     transactions: {
-      transaction: {
-        date: Date;
-        lastEventDate: Date;
-        code: string;
-        reference: string;
-        type: number;
-        status: number;
-        paymentMethod: {
-          type: number;
-          code: number;
-        };
-        grossAmount: number;
-        discontAmount: number;
-        feeAmount: number;
-        netAmount: number;
-        extraAmount: number;
-      };
-    }[];
+      transaction: PagSeguroTransactionResponse[];
+    };
   };
 }
 
-export default class ConsultarTransacoesService {
-  private readonly opts: PagSeguroClientOptions;
-
-  constructor(opts: PagSeguroClientOptions) {
-    this.opts = opts;
-  }
-
+export default class ConsultarTransacoesService extends BaseService {
   async get({
     reference,
     initialDate,
@@ -56,8 +35,8 @@ export default class ConsultarTransacoesService {
     try {
       const response = await requestPromise({
         qs: {
-          email: this.opts.config.email,
-          token: this.opts.config.token,
+          email: this.config.email,
+          token: this.config.token,
           reference,
           initialDate,
           finalDate,
@@ -67,8 +46,8 @@ export default class ConsultarTransacoesService {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-        transform: this.opts.transform,
-        url: `${this.opts.api}/v3/transactions`,
+        transform: this.transformResponseXmlToJson,
+        url: `${this.api}/v3/transactions`,
         method: 'GET',
       });
 
