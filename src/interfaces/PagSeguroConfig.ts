@@ -1,11 +1,9 @@
-import { PagSeguroEnv } from './PagSeguroTypes';
-
 export interface PagSeguroConfig {
   email: string;
   token: string;
   appId?: string;
   appKey?: string;
-  env: PagSeguroEnv;
+  env: 'sandbox' | 'production';
   log: string;
   debug?: boolean;
   notificationURL?: string;

@@ -2,10 +2,10 @@ import requestPromise from 'request-promise';
 import { Response } from 'request';
 import PagSeguroError from '../../errors/PagSeguroError';
 import { PagSeguroClientOptions } from '../../interfaces/PagSeguroClientOptions';
-import { jsonToXml } from '../../helper/GetBaseUrl';
 import { PagSeguroSender } from '../../interfaces/PagSeguroSender';
 import { PagSeguroItem } from '../../interfaces/PagSeguroItem';
 import { PagSeguroShipping } from '../../interfaces/PagSeguroShipping';
+import jsonToXml from '../../helper/JsonToXml';
 
 interface DebitoOnlineRequest {
   sender: PagSeguroSender;
