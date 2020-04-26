@@ -1,6 +1,7 @@
 /**
  * pagseguro
  */
+import { Currency } from './interfaces/CurrencyType';
 
 const pagseguro: any = {
   email: 'vhmf171@hotmail.com', // email da conta do pagseguro
@@ -59,10 +60,7 @@ const sender: any = {
   },
 };
 
-/**
- * address
- */
-const address: any = {
+const address = {
   street: 'Rua Julio de Oliveira',
   number: 194,
   complement: 'Casa',
@@ -74,21 +72,6 @@ const address: any = {
 };
 
 /**
- * billing
- */
-const billing: any = { ...address };
-
-/**
- * shipping
- */
-const shipping: any = {
-  addressRequired: false,
-  address,
-  type: 1,
-  cost: 25.0,
-};
-
-/**
  * items
  */
 const items = {
@@ -97,19 +80,19 @@ const items = {
       id: 1,
       description: 'Produto 1',
       quantity: 2,
-      amount: 2,
+      amount: new Currency(2),
     },
     {
       id: 2,
       description: 'Produto 2',
       quantity: 1,
-      amount: 60.0,
+      amount: new Currency(60.0),
     },
     {
       id: 3,
       description: 'Produto 3',
       quantity: 2,
-      amount: 20.0,
+      amount: new Currency(20.0),
     },
   ],
 };
@@ -158,7 +141,6 @@ const person: any = {
         number: '32091243',
       },
     ],
-    address,
   },
 };
 
@@ -200,7 +182,6 @@ const company: any = {
         number: '32091243',
       },
     ],
-    address,
   },
 };
 
@@ -236,11 +217,10 @@ const testConfig = {
       maxInstallmentNoInterest: 0,
       token: '',
     },
-    extraAmount: 10.0,
+    extraAmount: new Currency(10.0),
     reference: 'test_pagseguro_nodejs',
     sender,
-    shipping,
-    billing,
+    address,
     items,
   },
 };

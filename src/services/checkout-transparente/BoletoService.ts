@@ -6,13 +6,15 @@ import { PagSeguroSender } from '../../interfaces/PagSeguroSender';
 import { PagSeguroItem } from '../../interfaces/PagSeguroItem';
 import { PagSeguroShipping } from '../../interfaces/PagSeguroShipping';
 import jsonToXml from '../../helper/JsonToXml';
+import { currency } from '../../interfaces/CurrencyType';
+import formatCurrencyType from '../../helper/FormatCurrencyType';
 
 interface BoletoRequest {
   sender: PagSeguroSender;
   items: {
     item: PagSeguroItem[];
   };
-  extraAmount?: number;
+  extraAmount?: currency;
   reference?: string;
   notificationURL?: string;
   shipping: PagSeguroShipping;
@@ -31,11 +33,11 @@ interface BoletoResponse extends Response {
       code: number;
     };
     paymentLink: string;
-    grossAmount: number;
-    discontAmount: number;
-    feeAmount: number;
-    netAmount: number;
-    extraAmount: number;
+    grossAmount: currency;
+    discontAmount: currency;
+    feeAmount: currency;
+    netAmount: currency;
+    extraAmount: currency;
     installmentCount: number;
     itemCount: number;
     items: {
@@ -55,23 +57,28 @@ export default class BoletoService {
 
   async transaction(request: BoletoRequest): Promise<BoletoResponse> {
     try {
+      const parsedRequest = formatCurrencyType(request);
       const response = await requestPromise({
+        headers: {
+          'Content-Type': 'application/xml',
+        },
         qs: {
           email: this.opts.config.email,
           token: this.opts.config.token,
-        },
-        headers: {
-          'Content-Type': 'application/xml',
         },
         transform: this.opts.transform,
         url: `${this.opts.api}/v2/transactions`,
         method: 'POST',
         body: jsonToXml({
           payment: {
-            ...request,
+            ...parsedRequest,
             mode: 'default',
             method: 'boleto',
             currency: 'BRL',
+            shipping: {
+              addressRequired: true,
+              ...parsedRequest.shipping,
+            },
           },
         }),
       });

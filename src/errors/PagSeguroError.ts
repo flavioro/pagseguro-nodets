@@ -1,5 +1,3 @@
-import PagSeguroErrorCodes from './PagSeguroErrorCodes';
-
 interface PagSeguroErrorContent {
   code: number;
   message?: string;
@@ -23,20 +21,10 @@ class PagSeguroError extends Error {
     this.content = [];
 
     if (content) {
-      const localeError = (
-        error: PagSeguroErrorContent
-      ): PagSeguroErrorContent => {
-        return {
-          ...error,
-          message: PagSeguroErrorCodes[error.code] || error.message,
-        };
-      };
-
-      if (Array.isArray(content)) {
-        this.content = content.map(localeError);
-      } else if (content.code) {
-        this.content = [localeError(content)];
+      if (!Array.isArray(content)) {
+        content = [content];
       }
+      this.content = content;
     }
   }
 }
