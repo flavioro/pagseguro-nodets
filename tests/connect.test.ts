@@ -6,8 +6,6 @@ describe('Connect', () => {
     const client = getClient(testConfig.pagseguro);
     expect(typeof client).toEqual('object');
     expect(client).toHaveProperty('sessionService');
-    expect(client).toHaveProperty('installmentService');
-    expect(client).toHaveProperty('authorizationService');
     expect(client).toHaveProperty('checkoutTransparente');
 
     const { checkoutTransparente } = client;
