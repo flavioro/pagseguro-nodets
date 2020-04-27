@@ -2,18 +2,18 @@ import { AxiosResponse } from 'axios';
 import Log from '../helper/Log';
 
 class PagSeguroError extends Error {
-  public readonly status: string;
+  public readonly message: string;
   public readonly code: number;
   public readonly body: {
     code: number;
     message?: string;
   }[];
 
-  constructor({ statusText, status, data }: AxiosResponse) {
+  constructor({ statusText, status, data }: Partial<AxiosResponse>) {
     super();
     Object.setPrototypeOf(this, new.target.prototype);
 
-    this.status = statusText || 'error';
+    this.message = statusText || 'error';
     this.code = status || 500;
     this.body = [];
 

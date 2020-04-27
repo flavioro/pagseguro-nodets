@@ -2,7 +2,7 @@ import { currency } from './CurrencyType';
 
 export interface PagSeguroShipping {
   addressRequired?: boolean;
-  address: {
+  address?: {
     street: string;
     number: number;
     complement?: string;

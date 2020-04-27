@@ -16,7 +16,7 @@ const parseTransactionRequestToPayment = (
     method,
     currency: 'BRL',
     shipping: {
-      addressRequired: true,
+      addressRequired: request.shipping.address != null,
       ...request.shipping,
     },
   };

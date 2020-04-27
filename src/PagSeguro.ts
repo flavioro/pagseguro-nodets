@@ -1,3 +1,4 @@
+import { Router } from 'express';
 import { PagSeguroConfig } from './interfaces/PagSeguroConfig';
 import { PagSeguroClient } from './interfaces/PagSeguroClient';
 import SessionService from './services/SessionService';
@@ -10,25 +11,43 @@ import ConsultarTransacoesService from './services/checkout-transparente/Consult
 import DebitoOnlineService from './services/checkout-transparente/DebitoOnlineService';
 import EstornarTransacaoService from './services/checkout-transparente/EstornarTransacaoService';
 import validateConfig from './helper/ValidateConfig';
+import { PagSeguroRouteHandlers } from './interfaces/PagSeguroRouteHandlers';
+import getCheckoutTransparenteRoute from './express/GetCheckoutTransparenteRoute';
 
-const pagSeguro = (config?: PagSeguroConfig): PagSeguroClient => {
-  if (!config || !validateConfig(config)) {
-    throw new TypeError('Configurações PagSeguro inválidas');
+export default class PagSeguro {
+  static client(config: PagSeguroConfig): PagSeguroClient {
+    if (!validateConfig(config)) {
+      throw new TypeError('Configurações PagSeguro inválidas');
+    }
+
+    return {
+      sessionService: new SessionService(config),
+      checkoutTransparente: {
+        boletoService: new BoletoService(config),
+        cancelarTransacaoService: new CancelarTransacaoService(config),
+        cartaoCreditoService: new CartaoCreditoService(config),
+        consultarNotificaoService: new ConsultarNotificacaoService(config),
+        consultarTransacaoService: new ConsultarTransacaoService(config),
+        consultarTransacoesService: new ConsultarTransacoesService(config),
+        debitoOnlineService: new DebitoOnlineService(config),
+        estornarTransacaoService: new EstornarTransacaoService(config),
+      },
+    };
   }
 
-  return {
-    sessionService: new SessionService(config),
-    checkoutTransparente: {
-      boletoService: new BoletoService(config),
-      cancelarTransacaoService: new CancelarTransacaoService(config),
-      cartaoCreditoService: new CartaoCreditoService(config),
-      consultarNotificaoService: new ConsultarNotificacaoService(config),
-      consultarTransacaoService: new ConsultarTransacaoService(config),
-      consultarTransacoesService: new ConsultarTransacoesService(config),
-      debitoOnlineService: new DebitoOnlineService(config),
-      estornarTransacaoService: new EstornarTransacaoService(config),
-    },
-  };
-};
+  static init(
+    config: PagSeguroConfig,
+    handlers?: PagSeguroRouteHandlers
+  ): Router {
+    const client = PagSeguro.client(config);
 
-export default pagSeguro;
+    const router = Router();
+    router.use(
+      '/checkout-transparente',
+      getCheckoutTransparenteRoute(client, handlers)
+    );
+    return router;
+  }
+}
+
+// export default pagSeguro;

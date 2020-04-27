@@ -1,10 +1,10 @@
 import PagSeguroError from '../src/errors/PagSeguroError';
-import pagSeguro from '../src/PagSeguro';
 import { PagSeguroConfig } from '../src/interfaces/PagSeguroConfig';
+import PagSeguro from '../src/PagSeguro';
 
 describe('Session', () => {
   it('success', async () => {
-    const client = pagSeguro({
+    const client = PagSeguro.client({
       email: 'vhmf171@hotmail.com', // email da conta do pagseguro
       token: '2C233DAC692E48D7A30D4F5946FCA8E9', // token pagseguro
       appId: 'app5602760038', // ID da aplicação (pagamento recorrente)
@@ -35,7 +35,7 @@ describe('Session', () => {
         notificationURL: 'http://localhost:3333/authorization/notification',
         redirectURL: 'http://localhost:3333/authorization/response',
       };
-      await pagSeguro(configError).sessionService.getSession();
+      await PagSeguro.client(configError).sessionService.getSession();
     } catch (e) {
       expect(typeof e).toEqual('object');
       expect(e).toBeInstanceOf(PagSeguroError);
