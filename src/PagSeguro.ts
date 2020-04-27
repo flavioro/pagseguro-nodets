@@ -49,5 +49,3 @@ export default class PagSeguro {
     return router;
   }
 }
-
-// export default pagSeguro;

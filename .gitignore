@@ -110,3 +110,6 @@ dist
 # NPM / YARN
 package-lock.json
 yarn.lock
+
+# BUILD
+lib/

@@ -39,7 +39,7 @@ describe('Session', () => {
     } catch (e) {
       expect(typeof e).toEqual('object');
       expect(e).toBeInstanceOf(PagSeguroError);
-      expect(e).toHaveProperty('status', 'Unauthorized');
+      expect(e).toHaveProperty('message', 'Unauthorized');
       expect(e).toHaveProperty('code', 401);
       expect(e).toHaveProperty('body');
       expect(Array.isArray(e.body)).toEqual(true);

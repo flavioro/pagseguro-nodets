@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "PagSeguro NodeJS com TypeScript",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
-    "test": "jest --colors --no-cache",
+    "test": "jest --clearCache && jest --colors --no-cache",
     "build": "tsc",
+    "clean": "rimraf lib",
     "dev:server": "ts-node-dev --inspect --transpileOnly --ignore-watch node_modules src/app.ts",
-    "version": "git push && git push --tags && rm -rf build/temp",
     "prepublish": "npm run clean && npm run test && npm run build"
   },
   "author": "Victor Hugo M. Fernandes",
@@ -30,6 +31,7 @@
     "jest": "^25.4.0",
     "moment": "^2.24.0",
     "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
     "ts-jest": "^25.4.0",
     "typescript": "^3.8.3"
   },
