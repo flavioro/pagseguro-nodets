@@ -10,13 +10,12 @@ import ConsultarTransacoesService from './services/checkout-transparente/Consult
 import DebitoOnlineService from './services/checkout-transparente/DebitoOnlineService';
 import EstornarTransacaoService from './services/checkout-transparente/EstornarTransacaoService';
 import validateConfig from './helper/ValidateConfig';
-import Log from './Log';
 
-const getClient = (config?: PagSeguroConfig): PagSeguroClient => {
+const pagSeguro = (config?: PagSeguroConfig): PagSeguroClient => {
   if (!config || !validateConfig(config)) {
     throw new TypeError('Configurações PagSeguro inválidas');
   }
-  Log.init(config.logDir, config.logConsole);
+
   return {
     sessionService: new SessionService(config),
     checkoutTransparente: {
@@ -32,4 +31,4 @@ const getClient = (config?: PagSeguroConfig): PagSeguroClient => {
   };
 };
 
-export default getClient;
+export default pagSeguro;

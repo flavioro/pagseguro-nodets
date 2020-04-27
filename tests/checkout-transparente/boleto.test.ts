@@ -1,8 +1,8 @@
-import getClient from '../../src/GetClient';
+import pagSeguro from '../../src/PagSeguro';
 import { Currency } from '../../src/interfaces/CurrencyType';
 
 describe('Boleto', () => {
-  const client = getClient({
+  const client = pagSeguro({
     email: 'vhmf171@hotmail.com', // email da conta do pagseguro
     token: '2C233DAC692E48D7A30D4F5946FCA8E9', // token pagseguro
     appId: 'app5602760038', // ID da aplicação (pagamento recorrente)
@@ -75,10 +75,6 @@ describe('Boleto', () => {
     );
 
     expect(typeof response).toEqual('object');
-    expect(response).toHaveProperty('status');
-    expect(response).toHaveProperty('code');
-    expect(response).toHaveProperty('paymentLink');
-
-    console.log(response);
+    expect(response).toHaveProperty('transaction');
   });
 });

@@ -1,5 +1,5 @@
-import { Response } from 'request';
-import Log from '../Log';
+import { AxiosResponse } from 'axios';
+import Log from '../helper/Log';
 
 class PagSeguroError extends Error {
   public readonly status: string;
@@ -9,19 +9,19 @@ class PagSeguroError extends Error {
     message?: string;
   }[];
 
-  constructor({ statusMessage, statusCode, body }: Response) {
+  constructor({ statusText, status, data }: AxiosResponse) {
     super();
     Object.setPrototypeOf(this, new.target.prototype);
 
-    this.status = statusMessage || 'error';
-    this.code = statusCode || 500;
+    this.status = statusText || 'error';
+    this.code = status || 500;
     this.body = [];
 
-    if (body) {
-      if (!Array.isArray(body)) {
-        body = [body];
+    if (data) {
+      if (!Array.isArray(data)) {
+        data = [data];
       }
-      this.body = body;
+      this.body = data;
     }
 
     Log.error(this);

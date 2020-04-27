@@ -10,7 +10,7 @@ interface SessionResponse extends Response {
 }
 
 export default class SessionService extends BaseService {
-  async get(): Promise<SessionResponse> {
+  async getSession(): Promise<SessionResponse> {
     try {
       const response = await requestPromise({
         qs: {

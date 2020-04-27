@@ -13,7 +13,7 @@ interface ConsultarNotificacaoResponse extends Response {
 }
 
 export default class ConsultarNotificacaoService extends BaseService {
-  async get({
+  async gett({
     notificationCode,
   }: ConsultarNotificacaoRequest): Promise<ConsultarNotificacaoResponse> {
     try {

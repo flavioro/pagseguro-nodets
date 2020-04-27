@@ -13,7 +13,7 @@ interface ConsultarTransacaoResponse extends Response {
 }
 
 export default class ConsultarTransacaoService extends BaseService {
-  async get({
+  async gett({
     transactionCode,
   }: ConsultarTransacaoRequest): Promise<ConsultarTransacaoResponse> {
     try {

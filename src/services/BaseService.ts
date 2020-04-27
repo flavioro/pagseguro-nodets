@@ -2,7 +2,8 @@ import { Response } from 'request';
 import xml2js from 'fast-xml-parser';
 import { PagSeguroConfig } from '../interfaces/PagSeguroConfig';
 import getBaseUrl from '../helper/GetBaseUrl';
-import Log from '../Log';
+import Log from '../helper/Log';
+import Request, { RequestFunction } from '../helper/Request';
 
 export default abstract class BaseService {
   protected readonly config: PagSeguroConfig;
@@ -12,7 +13,18 @@ export default abstract class BaseService {
     response: Response
   ) => Response;
 
+  protected get post(): RequestFunction {
+    return Request.post;
+  }
+
+  protected get get(): RequestFunction {
+    return Request.get;
+  }
+
   constructor(config: PagSeguroConfig) {
+    Log.init(config.logDir, config.logConsole);
+    Request.init(config);
+
     this.config = config;
     this.api = getBaseUrl(config.env);
 

@@ -1,11 +1,11 @@
 import PagSeguroError from '../src/errors/PagSeguroError';
-import getClient from '../src/GetClient';
+import pagSeguro from '../src/PagSeguro';
 import testConfig from '../src/TestConfig';
 
 describe('Session', () => {
   it('success', async () => {
-    const client = getClient(testConfig.pagseguro);
-    const { session } = await client.sessionService.get();
+    const client = pagSeguro(testConfig.pagseguro);
+    const { session } = await client.sessionService.getSession();
 
     expect(typeof session).toEqual('object');
     expect(session).toHaveProperty('id');
@@ -19,7 +19,7 @@ describe('Session', () => {
         email: 'q',
         token: 'a',
       };
-      await getClient(configError).sessionService.get();
+      await pagSeguro(configError).sessionService.getSession();
     } catch (e) {
       expect(typeof e).toEqual('object');
       expect(e).toBeInstanceOf(PagSeguroError);

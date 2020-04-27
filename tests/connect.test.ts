@@ -1,9 +1,9 @@
-import getClient from '../src/GetClient';
+import pagSeguro from '../src/PagSeguro';
 import testConfig from '../src/TestConfig';
 
 describe('Connect', () => {
   it('success', () => {
-    const client = getClient(testConfig.pagseguro);
+    const client = pagSeguro(testConfig.pagseguro);
     expect(typeof client).toEqual('object');
     expect(client).toHaveProperty('sessionService');
     expect(client).toHaveProperty('checkoutTransparente');
@@ -21,7 +21,7 @@ describe('Connect', () => {
 
   it('throw if empty params', () => {
     try {
-      getClient();
+      pagSeguro();
     } catch (e) {
       expect(e).toBeInstanceOf(TypeError);
     }
@@ -31,7 +31,7 @@ describe('Connect', () => {
     const configError = { ...testConfig.pagseguro };
     delete configError.email;
     try {
-      getClient(configError);
+      pagSeguro(configError);
     } catch (e) {
       expect(e).toBeInstanceOf(TypeError);
     }

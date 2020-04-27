@@ -25,7 +25,7 @@ interface ConsultarTransacoesResponse extends Response {
 }
 
 export default class ConsultarTransacoesService extends BaseService {
-  async get({
+  async gett({
     reference,
     initialDate,
     finalDate,
