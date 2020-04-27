@@ -10,7 +10,6 @@ describe('Session', () => {
     expect(typeof session).toEqual('object');
     expect(session).toHaveProperty('id');
     expect(session.id).toHaveLength(32);
-    console.log(session.id);
   });
 
   it('unauthorized', async () => {
@@ -24,10 +23,10 @@ describe('Session', () => {
     } catch (e) {
       expect(typeof e).toEqual('object');
       expect(e).toBeInstanceOf(PagSeguroError);
-      expect(e).toHaveProperty('status', 'error');
-      expect(e).toHaveProperty('statusCode', 401);
-      expect(e).toHaveProperty('content');
-      expect(Array.isArray(e.content)).toEqual(true);
+      expect(e).toHaveProperty('status', 'Unauthorized');
+      expect(e).toHaveProperty('code', 401);
+      expect(e).toHaveProperty('body');
+      expect(Array.isArray(e.body)).toEqual(true);
     }
   });
 });

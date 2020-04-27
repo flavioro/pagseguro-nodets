@@ -1,33 +1,30 @@
-interface PagSeguroErrorContent {
-  code: number;
-  message?: string;
-}
+import { Response } from 'request';
+import Log from '../Log';
 
 class PagSeguroError extends Error {
   public readonly status: string;
-  public readonly statusCode: number;
-  public readonly content: PagSeguroErrorContent[];
+  public readonly code: number;
+  public readonly body: {
+    code: number;
+    message?: string;
+  }[];
 
-  constructor(
-    status: string,
-    statusCode: number,
-    content: PagSeguroErrorContent | PagSeguroErrorContent[]
-  ) {
+  constructor({ statusMessage, statusCode, body }: Response) {
     super();
     Object.setPrototypeOf(this, new.target.prototype);
 
-    this.status = status || 'error';
-    this.statusCode = statusCode || 500;
-    this.content = [];
+    this.status = statusMessage || 'error';
+    this.code = statusCode || 500;
+    this.body = [];
 
-    if (content) {
-      if (!Array.isArray(content)) {
-        content = [content];
+    if (body) {
+      if (!Array.isArray(body)) {
+        body = [body];
       }
-      this.content = content;
+      this.body = body;
     }
 
-    console.log('error', this.status, this.statusCode, this.content);
+    Log.error(this);
   }
 }
 

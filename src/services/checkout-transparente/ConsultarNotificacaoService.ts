@@ -32,11 +32,10 @@ export default class ConsultarNotificacaoService extends BaseService {
 
       return {
         ...response,
-        transaction: response.content.transaction,
+        transaction: response.body.transaction,
       };
     } catch ({ response }) {
-      const { status, statusText, content } = response;
-      throw new PagSeguroError(status, statusText, content);
+      throw new PagSeguroError(response);
     }
   }
 }

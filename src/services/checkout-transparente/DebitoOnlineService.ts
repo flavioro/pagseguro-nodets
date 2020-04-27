@@ -30,10 +30,9 @@ export default class DebitoOnlineService extends BaseService {
         }),
       });
 
-      return response.content.transaction;
+      return response.body.transaction;
     } catch ({ response }) {
-      const { status, statusText, content } = response;
-      throw new PagSeguroError(status, statusText, content);
+      throw new PagSeguroError(response);
     }
   }
 }

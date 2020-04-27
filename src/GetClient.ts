@@ -10,30 +10,24 @@ import ConsultarTransacoesService from './services/checkout-transparente/Consult
 import DebitoOnlineService from './services/checkout-transparente/DebitoOnlineService';
 import EstornarTransacaoService from './services/checkout-transparente/EstornarTransacaoService';
 import validateConfig from './helper/ValidateConfig';
-import createLog from './CreateLog';
+import Log from './Log';
 
 const getClient = (config?: PagSeguroConfig): PagSeguroClient => {
   if (!config || !validateConfig(config)) {
     throw new TypeError('Configurações PagSeguro inválidas');
   }
-  const logger = createLog(config.logDir, config.debug);
+  Log.init(config.logDir, config.logConsole);
   return {
-    sessionService: new SessionService(config, logger),
+    sessionService: new SessionService(config),
     checkoutTransparente: {
-      boletoService: new BoletoService(config, logger),
-      cancelarTransacaoService: new CancelarTransacaoService(config, logger),
-      cartaoCreditoService: new CartaoCreditoService(config, logger),
-      consultarNotificaoService: new ConsultarNotificacaoService(
-        config,
-        logger
-      ),
-      consultarTransacaoService: new ConsultarTransacaoService(config, logger),
-      consultarTransacoesService: new ConsultarTransacoesService(
-        config,
-        logger
-      ),
-      debitoOnlineService: new DebitoOnlineService(config, logger),
-      estornarTransacaoService: new EstornarTransacaoService(config, logger),
+      boletoService: new BoletoService(config),
+      cancelarTransacaoService: new CancelarTransacaoService(config),
+      cartaoCreditoService: new CartaoCreditoService(config),
+      consultarNotificaoService: new ConsultarNotificacaoService(config),
+      consultarTransacaoService: new ConsultarTransacaoService(config),
+      consultarTransacoesService: new ConsultarTransacoesService(config),
+      debitoOnlineService: new DebitoOnlineService(config),
+      estornarTransacaoService: new EstornarTransacaoService(config),
     },
   };
 };

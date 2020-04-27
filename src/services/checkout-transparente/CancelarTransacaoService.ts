@@ -32,11 +32,10 @@ export default class CancelarTransacaoService extends BaseService {
 
       return {
         ...response,
-        result: response.content.result,
+        result: response.body.result,
       };
     } catch ({ response }) {
-      const { status, statusText, content } = response;
-      throw new PagSeguroError(status, statusText, content);
+      throw new PagSeguroError(response);
     }
   }
 }

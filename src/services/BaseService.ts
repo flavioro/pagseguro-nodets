@@ -1,83 +1,46 @@
-import { Logger } from 'winston';
 import { Response } from 'request';
 import xml2js from 'fast-xml-parser';
 import { PagSeguroConfig } from '../interfaces/PagSeguroConfig';
 import getBaseUrl from '../helper/GetBaseUrl';
+import Log from '../Log';
 
 export default abstract class BaseService {
   protected readonly config: PagSeguroConfig;
   protected readonly api: string;
-  protected readonly logResponses: boolean;
-  protected readonly logger: Logger;
   protected readonly transformResponseXmlToJson: (
     body: any,
     response: Response
-  ) => any;
+  ) => Response;
 
-  constructor(config: PagSeguroConfig, logger: Logger) {
+  constructor(config: PagSeguroConfig) {
     this.config = config;
-    this.logger = logger;
-    this.logResponses = !!config.logResponses;
     this.api = getBaseUrl(config.env);
 
-    this.transformResponseXmlToJson = (body, response): any => {
-      const status = response.statusCode <= 200 ? 'success' : 'error';
+    this.transformResponseXmlToJson = (body, response): Response => {
+      const isError = response.statusCode > 200;
 
       if (xml2js.validate(body) === true) {
-        let content = xml2js.parse(body, { trimValues: true });
-
-        if (response.statusCode <= 200) {
-          if (this.logResponses) {
-            this.logger.info({
-              statusCode: response.statusCode,
-              statusMessage: response.statusMessage,
-              status,
-              content,
-            });
-          }
-        } else {
-          content = content.errors.error;
-          if (this.logResponses) {
-            this.logger.error({
-              statusCode: response.statusCode,
-              statusMessage: response.statusMessage,
-              status,
-              content,
-            });
-          }
+        body = xml2js.parse(body, { trimValues: true });
+        if (isError) {
+          body = body.errors.error;
         }
-
-        return {
-          statusCode: response.statusCode,
-          status,
-          content,
-        };
-      }
-
-      const error = {
-        statusCode: response.statusCode,
-        status,
-        content: body,
-      };
-
-      if (!Array.isArray(error.content)) {
-        error.content = [
+      } else if (isError && !Array.isArray(body)) {
+        body = [
           {
-            code: error.statusCode,
-            message: error.content,
+            code: response.statusCode,
+            message: body,
           },
         ];
       }
 
-      if (this.logResponses) {
-        this.logger.error({
-          ...error,
-          statusCode: response.statusCode,
-          statusMessage: response.statusMessage,
-        });
-      }
+      response.body = body;
 
-      return error;
+      if (isError) {
+        Log.error(response);
+      } else {
+        Log.info(response);
+      }
+      return response;
     };
   }
 }

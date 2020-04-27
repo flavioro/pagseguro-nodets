@@ -53,11 +53,10 @@ export default class ConsultarTransacoesService extends BaseService {
 
       return {
         ...response,
-        transactionSearchResult: response.content.transactionSearchResult,
+        transactionSearchResult: response.body.transactionSearchResult,
       };
     } catch ({ response }) {
-      const { status, statusText, content } = response;
-      throw new PagSeguroError(status, statusText, content);
+      throw new PagSeguroError(response);
     }
   }
 }

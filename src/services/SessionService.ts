@@ -24,20 +24,18 @@ export default class SessionService extends BaseService {
 
       return {
         ...response,
-        session: response.content.session,
+        session: response.body.session,
       };
     } catch ({ response }) {
-      if (response.content && response.content === 'Unauthorized') {
-        response.content = [
+      if (response.body && response.body === 'Unauthorized') {
+        response.body = [
           {
             code: 401,
             message: 'Unauthorized',
           },
         ];
       }
-
-      const { status, statusText, content } = response;
-      throw new PagSeguroError(status, statusText, content);
+      throw new PagSeguroError(response);
     }
   }
 }

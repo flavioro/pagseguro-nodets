@@ -10,7 +10,7 @@ const pagseguro: any = {
   appKey: 'AA2A53776C6CD50444AA4FB9E9ADE13C', // Key da aplicação (pagemento recorrente)
   env: 'sandbox',
   logDir: `${__dirname}/log/pagseguro.log`,
-  debug: true,
+  logConsole: false, //log on console
   notificationURL: 'http://localhost:3333/authorization/notification',
   redirectURL: 'http://localhost:3333/authorization/response',
 };
