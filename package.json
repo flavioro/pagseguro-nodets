@@ -4,8 +4,7 @@
   "description": "PagSeguro NodeJS com TypeScript",
   "main": "index.js",
   "scripts": {
-    "test": "jest --colors",
-    "clearTestCache": "jest --clearCache",
+    "test": "jest --colors --no-cache",
     "build": "tsc"
   },
   "author": "Victor Hugo M. Fernandes",
@@ -35,8 +34,6 @@
     "@types/axios": "^0.14.0",
     "axios": "^0.19.2",
     "fast-xml-parser": "^3.16.0",
-    "request": "^2.88.2",
-    "request-promise": "^4.2.5",
     "winston": "^3.2.1"
   }
 }

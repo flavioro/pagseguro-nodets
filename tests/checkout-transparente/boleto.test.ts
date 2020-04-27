@@ -14,7 +14,7 @@ describe('Boleto', () => {
     redirectURL: 'http://localhost:3333/authorization/response',
   });
 
-  it('sucess', async () => {
+  it('success', async () => {
     const response = await client.checkoutTransparente.boletoService.transaction(
       {
         sender: {

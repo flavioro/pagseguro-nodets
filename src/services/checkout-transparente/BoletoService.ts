@@ -1,18 +1,17 @@
 import PagSeguroError from '../../errors/PagSeguroError';
 import BaseService from '../BaseService';
-import { PagSeguroTransactionResponse } from '../../interfaces/PagSeguroTransactionResponse';
-import { PagSeguroTransactionRequest } from '../../interfaces/PagSeguroTransactionRequest';
-import pagSeguroTransactionRequestToPayment from '../../helper/PagSeguroTransactionRequestToPayment';
+import { PagSeguroTransaction } from '../../interfaces/PagSeguroTransaction';
+import parseTransactionRequestToPayment from '../../helper/ParseTransactionRequestToPayment';
+import { PagSeguroBoletoRequest } from '../../interfaces/PagSeguroBoletoRequest';
 
 export default class BoletoService extends BaseService {
   async transaction(
-    request: PagSeguroTransactionRequest
-  ): Promise<PagSeguroTransactionResponse> {
+    request: PagSeguroBoletoRequest
+  ): Promise<PagSeguroTransaction> {
     try {
-      const payment = pagSeguroTransactionRequestToPayment(request, 'boleto');
-      delete payment.creditCard;
+      const payment = parseTransactionRequestToPayment(request, 'boleto');
 
-      const response = await this.post<PagSeguroTransactionResponse>(
+      const response = await this.post<PagSeguroTransaction>(
         '/v2/transactions',
         { payment },
         {

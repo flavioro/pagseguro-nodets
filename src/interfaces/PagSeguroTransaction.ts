@@ -3,7 +3,7 @@ import { PagSeguroItem } from './PagSeguroItem';
 import { PagSeguroSender } from './PagSeguroSender';
 import { PagSeguroShipping } from './PagSeguroShipping';
 
-export interface PagSeguroTransactionResponse {
+export interface PagSeguroTransaction {
   transaction: {
     date: Date;
     code: string;

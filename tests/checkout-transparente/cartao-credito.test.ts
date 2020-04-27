@@ -14,7 +14,7 @@ describe('Cartão Credito', () => {
     redirectURL: 'http://localhost:3333/authorization/response',
   });
 
-  it('sucess', async () => {
+  it('success', async () => {
     const response = await client.checkoutTransparente.cartaoCreditoService.transaction(
       {
         sender: {
@@ -108,10 +108,6 @@ describe('Cartão Credito', () => {
     );
 
     expect(typeof response).toEqual('object');
-    expect(response).toHaveProperty('status');
-    expect(response).toHaveProperty('code');
-    expect(response).toHaveProperty('gatewaySystem');
-
-    console.log(response);
+    expect(response).toHaveProperty('transaction');
   });
 });

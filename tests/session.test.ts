@@ -1,10 +1,20 @@
 import PagSeguroError from '../src/errors/PagSeguroError';
 import pagSeguro from '../src/PagSeguro';
-import testConfig from '../src/TestConfig';
+import { PagSeguroConfig } from '../src/interfaces/PagSeguroConfig';
 
 describe('Session', () => {
   it('success', async () => {
-    const client = pagSeguro(testConfig.pagseguro);
+    const client = pagSeguro({
+      email: 'vhmf171@hotmail.com', // email da conta do pagseguro
+      token: '2C233DAC692E48D7A30D4F5946FCA8E9', // token pagseguro
+      appId: 'app5602760038', // ID da aplicação (pagamento recorrente)
+      appKey: 'AA2A53776C6CD50444AA4FB9E9ADE13C', // Key da aplicação (pagemento recorrente)
+      env: 'sandbox',
+      logDir: `${__dirname}/log/pagseguro.log`,
+      logConsole: false,
+      notificationURL: 'http://localhost:3333/authorization/notification',
+      redirectURL: 'http://localhost:3333/authorization/response',
+    });
     const { session } = await client.sessionService.getSession();
 
     expect(typeof session).toEqual('object');
@@ -14,10 +24,16 @@ describe('Session', () => {
 
   it('unauthorized', async () => {
     try {
-      const configError = {
-        ...testConfig.pagseguro,
-        email: 'q',
-        token: 'a',
+      const configError: PagSeguroConfig = {
+        email: 'q', // email da conta do pagseguro
+        token: '2C233DAC692E48D7A30D4F5946FCA8E9', // token pagseguro
+        appId: 'app5602760038', // ID da aplicação (pagamento recorrente)
+        appKey: 'AA2A53776C6CD50444AA4FB9E9ADE13C', // Key da aplicação (pagemento recorrente)
+        env: 'sandbox',
+        logDir: `${__dirname}/log/pagseguro.log`,
+        logConsole: false,
+        notificationURL: 'http://localhost:3333/authorization/notification',
+        redirectURL: 'http://localhost:3333/authorization/response',
       };
       await pagSeguro(configError).sessionService.getSession();
     } catch (e) {

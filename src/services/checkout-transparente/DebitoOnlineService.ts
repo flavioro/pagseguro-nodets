@@ -1,36 +1,31 @@
-import requestPromise from 'request-promise';
 import PagSeguroError from '../../errors/PagSeguroError';
-import jsonToXml from '../../helper/JsonToXml';
 import BaseService from '../BaseService';
-import { PagSeguroTransactionResponse } from '../../interfaces/PagSeguroTransactionResponse';
-import { PagSeguroTransactionRequest } from '../../interfaces/PagSeguroTransactionRequest';
-import pagSeguroTransactionRequestToPayment from '../../helper/PagSeguroTransactionRequestToPayment';
+import { PagSeguroTransaction } from '../../interfaces/PagSeguroTransaction';
+import parseTransactionRequestToPayment from '../../helper/ParseTransactionRequestToPayment';
+import { PagSeguroDebitoOnlineRequest } from '../../interfaces/PagSeguroDebitoOnlineRequest';
 
 export default class DebitoOnlineService extends BaseService {
   async transaction(
-    request: PagSeguroTransactionRequest
-  ): Promise<PagSeguroTransactionResponse> {
+    request: PagSeguroDebitoOnlineRequest
+  ): Promise<PagSeguroTransaction> {
     try {
-      const payment = pagSeguroTransactionRequestToPayment(request, 'eft');
-      delete payment.creditCard;
+      const payment = parseTransactionRequestToPayment(request, 'eft');
 
-      const response = await requestPromise({
-        qs: {
-          email: this.config.email,
-          token: this.config.token,
-        },
-        headers: {
-          'Content-Type': 'application/xml',
-        },
-        transform: this.transformResponseXmlToJson,
-        url: `${this.api}/v2/transactions`,
-        method: 'POST',
-        body: jsonToXml({
-          payment,
-        }),
-      });
+      const response = await this.post<PagSeguroTransaction>(
+        '/v2/transactions',
+        { payment },
+        {
+          headers: {
+            'Content-Type': 'application/xml',
+          },
+          params: {
+            email: this.config.email,
+            token: this.config.token,
+          },
+        }
+      );
 
-      return response.body.transaction;
+      return response.data;
     } catch ({ response }) {
       throw new PagSeguroError(response);
     }

@@ -2,19 +2,16 @@ import { createLogger, format, transports, LeveledLogMethod } from 'winston';
 
 export default class Log {
   private static innerLog: Log;
-  // private readonly log: Logger;
   private readonly info: LeveledLogMethod;
   private readonly warn: LeveledLogMethod;
   private readonly error: LeveledLogMethod;
   private readonly debug: LeveledLogMethod;
 
-  constructor(fileName: string, logConsole: boolean) {
+  private constructor(fileName: string, logConsole: boolean) {
     const logger = createLogger({
       format: format.combine(format.timestamp(), format.json()),
       transports: [new transports.File({ filename: fileName })],
     });
-    // eslint-disable-next-line no-console
-    console.log('Log file configured in:', fileName);
 
     if (logConsole && process.env.NODE_ENV !== 'production') {
       logger.add(

@@ -1,9 +1,7 @@
-import requestPromise from 'request-promise';
-import { Response } from 'request';
 import PagSeguroError from '../errors/PagSeguroError';
 import BaseService from './BaseService';
 
-interface SessionResponse extends Response {
+interface SessionResponse {
   session: {
     id: string;
   };
@@ -12,29 +10,17 @@ interface SessionResponse extends Response {
 export default class SessionService extends BaseService {
   async getSession(): Promise<SessionResponse> {
     try {
-      const response = await requestPromise({
-        qs: {
+      const response = await this.post<SessionResponse>(`/v2/sessions`, null, {
+        headers: {
+          'Content-Type': 'application/xml',
+        },
+        params: {
           email: this.config.email,
           token: this.config.token,
         },
-        transform: this.transformResponseXmlToJson,
-        url: `${this.api}/v2/sessions`,
-        method: 'POST',
       });
-
-      return {
-        ...response,
-        session: response.body.session,
-      };
+      return response.data;
     } catch ({ response }) {
-      if (response.body && response.body === 'Unauthorized') {
-        response.body = [
-          {
-            code: 401,
-            message: 'Unauthorized',
-          },
-        ];
-      }
       throw new PagSeguroError(response);
     }
   }
