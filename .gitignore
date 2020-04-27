@@ -113,3 +113,5 @@ yarn.lock
 
 # BUILD
 lib/
+lib
+/lib/
