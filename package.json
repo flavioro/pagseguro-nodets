@@ -6,7 +6,9 @@
   "scripts": {
     "test": "jest --colors --no-cache",
     "build": "tsc",
-    "dev:server": "ts-node-dev --inspect --transpileOnly --ignore-watch node_modules src/app.ts"
+    "dev:server": "ts-node-dev --inspect --transpileOnly --ignore-watch node_modules src/app.ts",
+    "version": "git push && git push --tags && rm -rf build/temp",
+    "prepublish": "npm run clean && npm run test && npm run build"
   },
   "author": "Victor Hugo M. Fernandes",
   "license": "MIT",
@@ -39,5 +41,19 @@
     "fast-xml-parser": "^3.16.0",
     "ts-node-dev": "^1.0.0-pre.44",
     "winston": "^3.2.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victorhugoof/pagseguro-nodets.git"
+  },
+  "bugs": {
+    "url": "https://github.com/victorhugoof/pagseguro-nodets/issues"
+  },
+  "homepage": "https://github.com/victorhugoof/pagseguro-nodets#readme",
+  "keywords": [
+    "nodejs",
+    "express",
+    "pagseguro",
+    "typescript"
+  ]
 }
