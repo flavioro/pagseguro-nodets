@@ -1,13 +1,13 @@
 {
   "name": "pagseguro-nodets",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "PagSeguro NodeJS com TypeScript",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest --clearCache && jest --colors --no-cache",
     "build": "tsc",
-    "clean": "rimraf lib",
+    "clean": "rimraf dist",
     "dev:server": "ts-node-dev --inspect --transpileOnly --ignore-watch node_modules src/app.ts",
     "prepublish": "npm run clean && npm run test && npm run build"
   },
